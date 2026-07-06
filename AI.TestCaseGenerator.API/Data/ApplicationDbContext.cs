@@ -68,7 +68,7 @@ namespace AI.TestCaseGenerator.API.Data
 
             modelBuilder.Entity<DocumentChunk>()
                 .HasOne(dc => dc.Document)
-                .WithMany(d => d.DocumentChunks)
+                .WithMany(d => d.Chunks)
                 .HasForeignKey(dc => dc.DocumentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -97,7 +97,7 @@ namespace AI.TestCaseGenerator.API.Data
             // -------------------------
 
             modelBuilder.Entity<Document>()
-                .Property(d => d.UploadedAt)
+                .Property(d => d.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             modelBuilder.Entity<ChatHistory>()
