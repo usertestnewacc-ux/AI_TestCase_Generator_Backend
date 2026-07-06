@@ -1,4 +1,4 @@
-using AI.TestCaseGenerator.API.Models;
+using AI.TestCaseGenerator.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AI.TestCaseGenerator.API.Data

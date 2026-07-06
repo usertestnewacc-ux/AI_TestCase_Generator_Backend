@@ -13,5 +13,7 @@ namespace AI.TestCaseGenerator.API.DTOs.Auth
         public DateTime Expiration { get; set; }
 
         public UserProfileDto? User { get; set; }
+
+        public string? RefreshToken { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 using AI.TestCaseGenerator.API.Data;
 using Microsoft.EntityFrameworkCore;
+using AI.TestCaseGenerator.API.Interfaces;
+using AI.TestCaseGenerator.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
+
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddCors(options =>
 {
