@@ -17,7 +17,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
 
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
+builder.Services.AddHttpClient<IClaudeService, ClaudeService>();
+builder.Services.AddHttpClient<IChromaDbService, ChromaDbService>();
+builder.Services.AddScoped<IAIChatService, AIChatService>();
+builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 
 builder.Services.AddCors(options =>
 {
