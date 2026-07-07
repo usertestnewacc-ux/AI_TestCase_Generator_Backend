@@ -80,7 +80,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         }
 
         /// <summary>
-        /// Regenerate previous AI response.
+        /// Regenerate previous AI response using the same ask flow.
         /// </summary>
         [HttpPost("regenerate")]
         [ProducesResponseType(typeof(AIChatResponseDto), StatusCodes.Status200OK)]
@@ -88,7 +88,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         {
             int userId = GetCurrentUserId();
 
-            var response = await _aiChatService.RegenerateResponseAsync(dto, userId);
+            var response = await _aiChatService.AskQuestionAsync(dto, userId);
 
             return Ok(response);
         }

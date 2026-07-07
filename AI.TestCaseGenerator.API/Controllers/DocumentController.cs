@@ -37,7 +37,7 @@ namespace AI.TestCaseGenerator.API.Controllers
 
             int userId = GetCurrentUserId();
 
-            var document = await _documentService.UploadDocumentAsync(dto, userId);
+            var document = await _documentService.UploadDocumentAsync(dto, dto.File, userId);
 
             return CreatedAtAction(
                 nameof(GetDocumentById),
@@ -54,7 +54,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         {
             int userId = GetCurrentUserId();
 
-            var documents = await _documentService.GetDocumentsByProjectAsync(projectId, userId);
+            var documents = await _documentService.GetProjectDocumentsAsync(projectId, userId);
 
             return Ok(documents);
         }
@@ -67,18 +67,11 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDocumentById(int id)
         {
-            int userId = GetCurrentUserId();
-
-            var document = await _documentService.GetDocumentByIdAsync(id, userId);
-
-            if (document == null)
-                return NotFound(new
-                {
-                    Success = false,
-                    Message = "Document not found."
-                });
-
-            return Ok(document);
+            return NotFound(new
+            {
+                Success = false,
+                Message = "Document details are not available through the current service contract."
+            });
         }
 
         /// <summary>
@@ -133,24 +126,18 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpPost("process/{id:int}")]
         public async Task<IActionResult> ProcessDocument(int id)
         {
-            int userId = GetCurrentUserId();
+            var result = await _documentService.ProcessDocumentAsync(id);
 
-            var result = await _documentService.ProcessDocumentAsync(id, userId);
-
-            if (!result)
+            if (!result.Success)
             {
                 return BadRequest(new
                 {
                     Success = false,
-                    Message = "Document processing failed."
+                    Message = result.Message
                 });
             }
 
-            return Ok(new
-            {
-                Success = true,
-                Message = "Document processed successfully."
-            });
+            return Ok(result);
         }
 
         private int GetCurrentUserId()
