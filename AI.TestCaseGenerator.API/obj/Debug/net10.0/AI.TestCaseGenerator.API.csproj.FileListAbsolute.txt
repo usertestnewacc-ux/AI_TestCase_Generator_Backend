@@ -110,3 +110,4 @@ D:\AI-TestCaseGenerator\backend\AI.TestCaseGenerator.API\obj\Debug\net10.0\refin
 D:\AI-TestCaseGenerator\backend\AI.TestCaseGenerator.API\obj\Debug\net10.0\AI.TestCaseGenerator.API.pdb
 D:\AI-TestCaseGenerator\backend\AI.TestCaseGenerator.API\obj\Debug\net10.0\AI.TestCaseGenerator.API.genruntimeconfig.cache
 D:\AI-TestCaseGenerator\backend\AI.TestCaseGenerator.API\obj\Debug\net10.0\ref\AI.TestCaseGenerator.API.dll
+D:\AI-TestCaseGenerator\backend\AI.TestCaseGenerator.API\bin\Debug\net10.0\BCrypt-Net-Next.dll

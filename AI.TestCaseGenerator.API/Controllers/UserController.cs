@@ -1,5 +1,4 @@
 using AI.TestCaseGenerator.API.DTOs.User;
-using AI.TestCaseGenerator.API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -12,14 +11,10 @@ namespace AI.TestCaseGenerator.API.Controllers
     [Produces("application/json")]
     public class UserController : ControllerBase
     {
-        
         private readonly ILogger<UserController> _logger;
 
-        public UserController(
-            IUserService userService,
-            ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger)
         {
-            _userService = userService;
             _logger = logger;
         }
 
@@ -29,22 +24,17 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpGet("profile")]
         [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetProfile()
+        public IActionResult GetProfile()
         {
-            int userId = GetCurrentUserId();
-
-            var user = await _userService.GetProfileAsync(userId);
-
-            if (user == null)
+            var profile = new UserProfileDto
             {
-                return NotFound(new
-                {
-                    Success = false,
-                    Message = "User not found."
-                });
-            }
+                Id = GetCurrentUserId(),
+                FullName = User.FindFirst(ClaimTypes.Name)?.Value ?? string.Empty,
+                Email = User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty,
+                CreatedAt = DateTime.UtcNow
+            };
 
-            return Ok(user);
+            return Ok(profile);
         }
 
         /// <summary>
@@ -53,23 +43,13 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpPut("profile")]
         [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateProfile(
-            [FromBody] UpdateUserDto dto)
+        public IActionResult UpdateProfile([FromBody] object dto)
         {
-            int userId = GetCurrentUserId();
-
-            var user = await _userService.UpdateProfileAsync(userId, dto);
-
-            if (user == null)
+            return StatusCode(StatusCodes.Status501NotImplemented, new
             {
-                return BadRequest(new
-                {
-                    Success = false,
-                    Message = "Unable to update profile."
-                });
-            }
-
-            return Ok(user);
+                Success = false,
+                Message = "Profile update is not implemented in the current service layer."
+            });
         }
 
         /// <summary>
@@ -78,26 +58,12 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpPut("change-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangePassword(
-            [FromBody] ChangePasswordDto dto)
+        public IActionResult ChangePassword([FromBody] object dto)
         {
-            int userId = GetCurrentUserId();
-
-            var changed = await _userService.ChangePasswordAsync(userId, dto);
-
-            if (!changed)
+            return StatusCode(StatusCodes.Status501NotImplemented, new
             {
-                return BadRequest(new
-                {
-                    Success = false,
-                    Message = "Current password is incorrect."
-                });
-            }
-
-            return Ok(new
-            {
-                Success = true,
-                Message = "Password changed successfully."
+                Success = false,
+                Message = "Password change is not implemented in the current service layer."
             });
         }
 
@@ -106,25 +72,12 @@ namespace AI.TestCaseGenerator.API.Controllers
         /// </summary>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteAccount()
+        public IActionResult DeleteAccount()
         {
-            int userId = GetCurrentUserId();
-
-            var deleted = await _userService.DeleteAccountAsync(userId);
-
-            if (!deleted)
+            return StatusCode(StatusCodes.Status501NotImplemented, new
             {
-                return BadRequest(new
-                {
-                    Success = false,
-                    Message = "Unable to delete account."
-                });
-            }
-
-            return Ok(new
-            {
-                Success = true,
-                Message = "Account deleted successfully."
+                Success = false,
+                Message = "Account deletion is not implemented in the current service layer."
             });
         }
 

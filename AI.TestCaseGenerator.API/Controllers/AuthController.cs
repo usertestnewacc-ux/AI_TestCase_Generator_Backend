@@ -1,7 +1,9 @@
 using AI.TestCaseGenerator.API.DTOs.Auth;
+using AI.TestCaseGenerator.API.DTOs.User;
 using AI.TestCaseGenerator.API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AI.TestCaseGenerator.API.Controllers
 {
@@ -63,9 +65,17 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Logout()
         {
-            var email = User.Identity?.Name;
+            var userId = GetCurrentUserId();
+            var loggedOut = await _authService.LogoutAsync(userId);
 
-            await _authService.LogoutAsync(email!);
+            if (!loggedOut)
+            {
+                return NotFound(new
+                {
+                    Success = false,
+                    Message = "User not found."
+                });
+            }
 
             return Ok(new
             {
@@ -80,16 +90,17 @@ namespace AI.TestCaseGenerator.API.Controllers
         [Authorize]
         [HttpGet("profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetProfile()
+        public IActionResult GetProfile()
         {
-            var email = User.Identity?.Name;
+            var userProfile = new UserProfileDto
+            {
+                Id = GetCurrentUserId(),
+                FullName = User.FindFirst(ClaimTypes.Name)?.Value ?? string.Empty,
+                Email = User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty,
+                CreatedAt = DateTime.UtcNow
+            };
 
-            var user = await _authService.GetCurrentUserAsync(email!);
-
-            if (user == null)
-                return NotFound();
-
-            return Ok(user);
+            return Ok(userProfile);
         }
 
         /// <summary>
@@ -105,6 +116,16 @@ namespace AI.TestCaseGenerator.API.Controllers
                 Success = true,
                 Message = "Token is valid."
             });
+        }
+
+        private int GetCurrentUserId()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null)
+                throw new UnauthorizedAccessException("User not authenticated.");
+
+            return int.Parse(claim.Value);
         }
     }
 }

@@ -31,9 +31,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         public async Task<IActionResult> GenerateTestCases(
             [FromBody] GenerateTestCaseRequestDto dto)
         {
-            int userId = GetCurrentUserId();
-
-            var result = await _testCaseService.GenerateTestCasesAsync(dto, userId);
+            var result = await _testCaseService.GenerateTestCasesAsync(dto);
 
             return Ok(result);
         }
@@ -45,9 +43,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TestCaseResponseDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProjectTestCases(int projectId)
         {
-            int userId = GetCurrentUserId();
-
-            var result = await _testCaseService.GetProjectTestCasesAsync(projectId, userId);
+            var result = await _testCaseService.GetAllAsync(projectId);
 
             return Ok(result);
         }
@@ -60,9 +56,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTestCaseById(int id)
         {
-            int userId = GetCurrentUserId();
-
-            var testCase = await _testCaseService.GetTestCaseByIdAsync(id, userId);
+            var testCase = await _testCaseService.GetByIdAsync(id);
 
             if (testCase == null)
             {
@@ -85,9 +79,7 @@ namespace AI.TestCaseGenerator.API.Controllers
             int id,
             [FromBody] UpdateTestCaseDto dto)
         {
-            int userId = GetCurrentUserId();
-
-            var updated = await _testCaseService.UpdateTestCaseAsync(id, dto, userId);
+            var updated = await _testCaseService.UpdateAsync(id, dto);
 
             if (updated == null)
             {
@@ -108,9 +100,7 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteTestCase(int id)
         {
-            int userId = GetCurrentUserId();
-
-            var deleted = await _testCaseService.DeleteTestCaseAsync(id, userId);
+            var deleted = await _testCaseService.DeleteAsync(id);
 
             if (!deleted)
             {
@@ -137,9 +127,13 @@ namespace AI.TestCaseGenerator.API.Controllers
             [FromQuery] int projectId,
             [FromQuery] string keyword)
         {
-            int userId = GetCurrentUserId();
+            var allCases = await _testCaseService.GetAllAsync(projectId);
 
-            var result = await _testCaseService.SearchTestCasesAsync(projectId, keyword, userId);
+            var result = allCases.Where(t =>
+                string.IsNullOrWhiteSpace(keyword) ||
+                (t.Title?.Contains(keyword, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (t.Preconditions?.Contains(keyword, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (t.ExpectedResult?.Contains(keyword, StringComparison.OrdinalIgnoreCase) ?? false));
 
             return Ok(result);
         }
@@ -154,13 +148,11 @@ namespace AI.TestCaseGenerator.API.Controllers
             [FromQuery] string? priority,
             [FromQuery] string? testType)
         {
-            int userId = GetCurrentUserId();
+            var allCases = await _testCaseService.GetAllAsync(projectId);
 
-            var result = await _testCaseService.FilterTestCasesAsync(
-                projectId,
-                priority,
-                testType,
-                userId);
+            var result = allCases.Where(t =>
+                (string.IsNullOrWhiteSpace(priority) || string.Equals(t.Priority, priority, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(testType) || string.Equals(t.TestType, testType, StringComparison.OrdinalIgnoreCase)));
 
             return Ok(result);
         }
