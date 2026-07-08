@@ -40,32 +40,30 @@ namespace AI.TestCaseGenerator.API.Services
     if (project == null)
         throw new Exception("Project not found.");
 
-    // Generate embedding for user's question
-    var embedding =
-        await _embeddingService.GenerateEmbeddingAsync(
-            request.Question);
+    string answer;
 
-    // Search ChromaDB
-    var contextChunks =
-        await _chromaDbService.SearchAsync(
+    try
+    {
+        var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Question);
+
+        var contextChunks = await _chromaDbService.SearchAsync(
             $"project-{project.Id}",
             embedding);
 
-    // Build prompt
-    var prompt = BuildPrompt(
-        contextChunks,
-        request.Question);
+        var prompt = BuildPrompt(contextChunks, request.Question);
 
-    // Claude
-    var answer =
-        await _claudeService.GenerateResponseAsync(prompt);
+        answer = await _claudeService.GenerateResponseAsync(prompt);
+    }
+    catch
+    {
+        answer = "The AI assistant is currently unavailable. Please try again shortly.";
+    }
 
-    // Save chat history
     var history = new ChatHistory
     {
         ProjectId = project.Id,
         UserId = userId,
-        UserQuestion= request.Question,
+        UserQuestion = request.Question,
         AiResponse = answer
     };
 
