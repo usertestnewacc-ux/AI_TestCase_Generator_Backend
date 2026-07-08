@@ -183,7 +183,7 @@ public async Task<IEnumerable<DocumentResponseDto>> GetProjectDocumentsAsync(
             p.UserId == userId);
 
     if (!projectExists)
-        throw new Exception("Project not found.");
+        return Array.Empty<DocumentResponseDto>();
 
     var documents = await _context.Documents
         .Where(d => d.ProjectId == projectId)
@@ -204,14 +204,26 @@ public async Task<DocumentDownloadDto?> DownloadDocumentAsync(
             d.Id == documentId &&
             d.Project.UserId == userId);
 
-    if (document == null)
+    if (document == null || !File.Exists(document.FilePath))
         return null;
+
+    var fileBytes = await File.ReadAllBytesAsync(document.FilePath);
 
     return new DocumentDownloadDto
     {
         FileName = document.FileName,
+        FileBytes = fileBytes,
         FilePath = document.FilePath,
-        FileType = document.FileType
+        FileType = document.FileType,
+        ContentType = string.IsNullOrWhiteSpace(document.FileType)
+            ? "application/octet-stream"
+            : document.FileType.ToLower() switch
+            {
+                ".pdf" => "application/pdf",
+                ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ".txt" => "text/plain",
+                _ => "application/octet-stream"
+            }
     };
 }
 

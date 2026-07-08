@@ -49,7 +49,7 @@ namespace AI.TestCaseGenerator.API.Controllers
 
             var history = await _aiChatService.GetChatHistoryAsync(projectId, userId);
 
-            return Ok(history);
+            return Ok(history ?? Array.Empty<ChatHistoryDto>());
         }
 
         /// <summary>

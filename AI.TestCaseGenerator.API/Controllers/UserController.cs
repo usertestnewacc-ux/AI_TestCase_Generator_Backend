@@ -1,7 +1,9 @@
+using AI.TestCaseGenerator.API.Data;
 using AI.TestCaseGenerator.API.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace AI.TestCaseGenerator.API.Controllers
 {
@@ -11,10 +13,14 @@ namespace AI.TestCaseGenerator.API.Controllers
     [Produces("application/json")]
     public class UserController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(
+            ApplicationDbContext context,
+            ILogger<UserController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
@@ -43,12 +49,28 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpPut("profile")]
         [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateProfile([FromBody] object dto)
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented, new
+            var userId = GetCurrentUserId();
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+                return NotFound(new { Success = false, Message = "User not found." });
+
+            if (!string.IsNullOrWhiteSpace(dto.FullName))
+                user.FullName = dto.FullName.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.Email))
+                user.Email = dto.Email.Trim();
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new UserProfileDto
             {
-                Success = false,
-                Message = "Profile update is not implemented in the current service layer."
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt
             });
         }
 
@@ -58,13 +80,33 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpPut("change-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ChangePassword([FromBody] object dto)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented, new
+            if (string.IsNullOrWhiteSpace(dto.CurrentPassword) ||
+                string.IsNullOrWhiteSpace(dto.NewPassword) ||
+                string.IsNullOrWhiteSpace(dto.ConfirmPassword))
             {
-                Success = false,
-                Message = "Password change is not implemented in the current service layer."
-            });
+                return BadRequest(new { Success = false, Message = "All password fields are required." });
+            }
+
+            if (dto.NewPassword != dto.ConfirmPassword)
+            {
+                return BadRequest(new { Success = false, Message = "New password and confirmation do not match." });
+            }
+
+            var userId = GetCurrentUserId();
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+                return NotFound(new { Success = false, Message = "User not found." });
+
+            if (!BCryptNet.Verify(dto.CurrentPassword, user.PasswordHash))
+                return BadRequest(new { Success = false, Message = "Current password is incorrect." });
+
+            user.PasswordHash = BCryptNet.HashPassword(dto.NewPassword);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Password changed successfully." });
         }
 
         /// <summary>
@@ -72,13 +114,18 @@ namespace AI.TestCaseGenerator.API.Controllers
         /// </summary>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult DeleteAccount()
+        public async Task<IActionResult> DeleteAccount()
         {
-            return StatusCode(StatusCodes.Status501NotImplemented, new
-            {
-                Success = false,
-                Message = "Account deletion is not implemented in the current service layer."
-            });
+            var userId = GetCurrentUserId();
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+                return NotFound(new { Success = false, Message = "User not found." });
+
+            user.IsDeleted = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true, Message = "Account deleted successfully." });
         }
 
         private int GetCurrentUserId()
