@@ -189,7 +189,7 @@ private string GenerateJwtToken(User user)
     var jwtSettings = _configuration.GetSection("Jwt");
 
     var key = new SymmetricSecurityKey(
-        Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
+        Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!));
 
     var credentials = new SigningCredentials(
         key,
