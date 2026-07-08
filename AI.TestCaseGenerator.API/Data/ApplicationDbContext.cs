@@ -96,13 +96,7 @@ namespace AI.TestCaseGenerator.API.Data
             // Default Values
             // -------------------------
 
-            modelBuilder.Entity<Document>()
-                .Property(d => d.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            modelBuilder.Entity<ChatHistory>()
-                .Property(c => c.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            
 
             modelBuilder.Entity<TestCase>()
                 .Property(t => t.IsAiGenerated)
