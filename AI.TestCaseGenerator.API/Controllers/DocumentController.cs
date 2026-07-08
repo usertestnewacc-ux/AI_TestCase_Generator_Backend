@@ -52,18 +52,11 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<DocumentResponseDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProjectDocuments(int projectId)
         {
-            try
-            {
-                int userId = GetCurrentUserId();
+            int userId = GetCurrentUserId();
 
-                var documents = await _documentService.GetProjectDocumentsAsync(projectId, userId);
+            var documents = await _documentService.GetProjectDocumentsAsync(projectId, userId);
 
-                return Ok(documents);
-            }
-            catch (Exception)
-            {
-                return Ok(Array.Empty<DocumentResponseDto>());
-            }
+            return Ok(documents);
         }
 
         /// <summary>

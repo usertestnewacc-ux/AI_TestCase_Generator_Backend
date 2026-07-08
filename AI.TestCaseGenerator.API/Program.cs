@@ -1,10 +1,7 @@
 using AI.TestCaseGenerator.API.Data;
+using Microsoft.EntityFrameworkCore;
 using AI.TestCaseGenerator.API.Interfaces;
 using AI.TestCaseGenerator.API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,26 +20,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProjectService, ProjectService>();
-
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var secretKey = jwtSettings["SecretKey"] ?? "ThisIsASecretKeyAtLeast32CharactersLong123";
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-        };
-    });
-
-builder.Services.AddAuthorization();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
 builder.Services.AddHttpClient<IClaudeService, ClaudeService>();
@@ -72,7 +49,6 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

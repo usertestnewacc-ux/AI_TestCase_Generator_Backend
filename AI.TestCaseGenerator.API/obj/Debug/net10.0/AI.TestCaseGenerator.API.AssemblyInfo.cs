@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AI.TestCaseGenerator.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3dbcd8efb53f7f1abce7b305acf4dd06556bb01")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d84f72deba414e46bd1d762e1cd74448124fce2")]
 [assembly: System.Reflection.AssemblyProductAttribute("AI.TestCaseGenerator.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AI.TestCaseGenerator.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

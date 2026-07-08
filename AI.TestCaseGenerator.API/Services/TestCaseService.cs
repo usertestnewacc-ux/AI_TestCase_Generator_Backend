@@ -55,70 +55,43 @@ public async Task<TestCaseResponseDto?> GetByIdAsync(int id)
 public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
     GenerateTestCaseRequestDto request)
 {
+
+    
+
+    // Verify project exists
     var project = await _context.Projects
         .FirstOrDefaultAsync(p => p.Id == request.ProjectId);
 
     if (project == null)
         throw new Exception("Project not found.");
 
-    try
-    {
-        var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Prompt);
+    // Generate embedding for user prompt
+    var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Prompt);
 
-        var relevantChunks = await _chromaDbService.SearchAsync(
-            project.Name,
-            embedding,
-            5);
+    // Search relevant chunks from ChromaDB
+    var relevantChunks = await _chromaDbService.SearchAsync(
+        project.Name,
+        embedding,
+        5);
 
-        var prompt = BuildPrompt(request.Prompt, relevantChunks);
+    // Build RAG prompt
+    var prompt = BuildPrompt(request.Prompt, relevantChunks);
 
-        var aiResponse = await _claudeService.GenerateTestCasesAsync(prompt);
+    // Send to Claude
+    var aiResponse = await _claudeService.GenerateTestCasesAsync(prompt);
 
-        var generatedTestCases = ParseTestCases(
-            aiResponse,
-            request.ProjectId);
+    // Parse AI response
+    var generatedTestCases = ParseTestCases(
+        aiResponse,
+        request.ProjectId);
 
-        if (generatedTestCases.Count == 0)
-        {
-            generatedTestCases.Add(new TestCase
-            {
-                ProjectId = request.ProjectId,
-                Title = "Fallback validation case",
-                TestType = "Functional",
-                Priority = "Medium",
-                Preconditions = "The requested feature is available to the user",
-                TestSteps = "1. Review the requirement\n2. Exercise the feature manually\n3. Confirm the expected behavior",
-                ExpectedResult = "The feature works as intended for the requested scenario"
-            });
-        }
+    // Save into database
+    _context.TestCases.AddRange(generatedTestCases);
 
-        _context.TestCases.AddRange(generatedTestCases);
+    await _context.SaveChangesAsync();
 
-        await _context.SaveChangesAsync();
-
-        return _mapper.Map<IEnumerable<TestCaseResponseDto>>(generatedTestCases);
-    }
-    catch
-    {
-        var fallbackTestCases = new List<TestCase>
-        {
-            new TestCase
-            {
-                ProjectId = request.ProjectId,
-                Title = "Fallback validation case",
-                TestType = "Functional",
-                Priority = "Medium",
-                Preconditions = "The requested feature is available to the user",
-                TestSteps = "1. Review the requirement\n2. Exercise the feature manually\n3. Confirm the expected behavior",
-                ExpectedResult = "The feature works as intended for the requested scenario"
-            }
-        };
-
-        _context.TestCases.AddRange(fallbackTestCases);
-        await _context.SaveChangesAsync();
-
-        return _mapper.Map<IEnumerable<TestCaseResponseDto>>(fallbackTestCases);
-    }
+    return _mapper.Map<IEnumerable<TestCaseResponseDto>>(
+        generatedTestCases);
 }
 
 private static string BuildPrompt(
