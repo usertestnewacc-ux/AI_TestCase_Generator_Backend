@@ -1,4 +1,5 @@
 using AI.TestCaseGenerator.API.Data;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AI.TestCaseGenerator.API.Interfaces;
 using AI.TestCaseGenerator.API.Services;
@@ -18,26 +19,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "AI Test Case Generator API",
-        Version = "v1"
-    });
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Enter JWT token as: Bearer {your token}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-    // Global security requirement intentionally omitted to avoid package/type mismatches.
-    // The security definition above still enables the Authorize button in Swagger UI.
-});
+builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -62,10 +44,43 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey configuration is missing")))
         };
+
+        // Add event logging to capture authentication failures and successful validations
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception != null)
+                {
+                    Console.WriteLine($"[JWT AUTH ERROR] {context.Exception.GetType().Name}: {context.Exception.Message}");
+                    if (context.Exception.InnerException != null)
+                    {
+                        Console.WriteLine($"[JWT AUTH ERROR] Inner Exception: {context.Exception.InnerException.Message}");
+                    }
+                }
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                var principal = context.Principal;
+                if (principal != null)
+                {
+                    var claims = string.Join(", ", principal.Claims.Select(c => $"{c.Type}={c.Value}"));
+                    Console.WriteLine($"[JWT TOKEN VALID] Claims: {claims}");
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddMaps(AppDomain.CurrentDomain.GetAssemblies());
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
