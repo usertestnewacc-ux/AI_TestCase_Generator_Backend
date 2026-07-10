@@ -224,4 +224,12 @@ private static string GenerateRefreshToken()
 }
 
     }
+
+    public class MappingProfile : Profile
+{
+    public MappingProfile()
+    {
+        CreateMap<User, UserProfileDto>();
+    }
+}
 }
