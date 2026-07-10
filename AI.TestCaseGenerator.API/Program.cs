@@ -1,7 +1,16 @@
 using AI.TestCaseGenerator.API.Data;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AI.TestCaseGenerator.API.Interfaces;
 using AI.TestCaseGenerator.API.Services;
+using AI.TestCaseGenerator.API.DTOs;
+using AI.TestCaseGenerator.API.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
+using System.Text;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
@@ -17,8 +28,59 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
 
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey configuration is missing")))
+        };
+
+        // Add event logging to capture authentication failures and successful validations
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception != null)
+                {
+                    Console.WriteLine($"[JWT AUTH ERROR] {context.Exception.GetType().Name}: {context.Exception.Message}");
+                    if (context.Exception.InnerException != null)
+                    {
+                        Console.WriteLine($"[JWT AUTH ERROR] Inner Exception: {context.Exception.InnerException.Message}");
+                    }
+                }
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                var principal = context.Principal;
+                if (principal != null)
+                {
+                    var claims = string.Join(", ", principal.Claims.Select(c => $"{c.Type}={c.Value}"));
+                    Console.WriteLine($"[JWT TOKEN VALID] Claims: {claims}");
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddMaps(AppDomain.CurrentDomain.GetAssemblies());
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
@@ -49,8 +111,11 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
