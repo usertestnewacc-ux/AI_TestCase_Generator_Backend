@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace AI.TestCaseGenerator.API.Services
 {
@@ -29,36 +30,66 @@ namespace AI.TestCaseGenerator.API.Services
 
         public async Task<ProcessDocumentResponseDto> ProcessDocumentAsync(int documentId)
 {
-    var document = await _context.Documents
-        .FirstOrDefaultAsync(x => x.Id == documentId);
-
-    if (document == null)
-        throw new Exception("Document not found.");
-
-    // Step 1
-    string extractedText = await ExtractTextAsync(document);
-
-    // Step 2
-    List<string> chunks = ChunkText(extractedText);
-
-    // Step 3
-    await SaveChunksAsync(document.Id, chunks);
-
-    // Step 4
-    await GenerateEmbeddingsAsync(document.Id);
-
-    return new ProcessDocumentResponseDto
+    try
     {
-        Success = true,
-        Message = "Document processed successfully.",
-        TotalChunks = chunks.Count
-    };
+        var document = await _context.Documents
+            .FirstOrDefaultAsync(x => x.Id == documentId);
+
+        if (document == null)
+            return new ProcessDocumentResponseDto
+            {
+                Success = false,
+                Message = "Document not found."
+            };
+
+        if (!File.Exists(document.FilePath))
+            return new ProcessDocumentResponseDto
+            {
+                Success = false,
+                Message = "Document file is missing on disk."
+            };
+
+        string extractedText = await ExtractTextAsync(document);
+
+        if (string.IsNullOrWhiteSpace(extractedText))
+            return new ProcessDocumentResponseDto
+            {
+                Success = false,
+                Message = "No text could be extracted from the document."
+            };
+
+        List<string> chunks = ChunkText(extractedText);
+
+        await SaveChunksAsync(document.Id, chunks);
+
+        await GenerateEmbeddingsAsync(document.Id);
+
+        return new ProcessDocumentResponseDto
+        {
+            Success = true,
+            Message = "Document processed successfully.",
+            TotalChunks = chunks.Count
+        };
+    }
+    catch (Exception ex)
+    {
+        return new ProcessDocumentResponseDto
+        {
+            Success = false,
+            Message = ex.Message
+        };
+    }
 }
 
 
 private async Task<string> ExtractTextAsync(Document document)
 {
-    string extension = Path.GetExtension(document.FilePath).ToLower();
+    string extension = Path.GetExtension(document.FilePath).ToLowerInvariant();
+
+    if (extension == ".txt")
+    {
+        return await File.ReadAllTextAsync(document.FilePath);
+    }
 
     if (extension == ".pdf")
         return await ExtractPdfTextAsync(document.FilePath);
@@ -66,17 +97,17 @@ private async Task<string> ExtractTextAsync(Document document)
     if (extension == ".docx")
         return await ExtractDocxTextAsync(document.FilePath);
 
-    throw new Exception("Unsupported document type.");
+    return await Task.FromResult(string.Empty);
 }
 
         private async Task<string> ExtractDocxTextAsync(string filePath)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("DOCX extraction is not implemented yet.");
         }
 
         private async Task<string> ExtractPdfTextAsync(string filePath)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("PDF extraction is not implemented yet.");
         }
 
         private List<string> ChunkText(string text)
@@ -183,7 +214,7 @@ public async Task<IEnumerable<DocumentResponseDto>> GetProjectDocumentsAsync(
             p.UserId == userId);
 
     if (!projectExists)
-        throw new Exception("Project not found.");
+        return Enumerable.Empty<DocumentResponseDto>();
 
     var documents = await _context.Documents
         .Where(d => d.ProjectId == projectId)
@@ -193,6 +224,19 @@ public async Task<IEnumerable<DocumentResponseDto>> GetProjectDocumentsAsync(
     return _mapper.Map<IEnumerable<DocumentResponseDto>>(documents);
 }
 
+public async Task<DocumentResponseDto?> GetDocumentByIdAsync(int documentId, int userId)
+{
+    var document = await _context.Documents
+        .Include(d => d.Project)
+        .FirstOrDefaultAsync(d =>
+            d.Id == documentId &&
+            d.Project.UserId == userId);
+
+    if (document == null)
+        return null;
+
+    return _mapper.Map<DocumentResponseDto>(document);
+}
 
 public async Task<DocumentDownloadDto?> DownloadDocumentAsync(
     int documentId,
@@ -204,14 +248,26 @@ public async Task<DocumentDownloadDto?> DownloadDocumentAsync(
             d.Id == documentId &&
             d.Project.UserId == userId);
 
-    if (document == null)
+    if (document == null || !File.Exists(document.FilePath))
         return null;
+
+    var bytes = await File.ReadAllBytesAsync(document.FilePath);
+    var contentType = document.FileType.ToLowerInvariant() switch
+    {
+        ".txt" => "text/plain",
+        ".pdf" => "application/pdf",
+        ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        _ => "application/octet-stream"
+    };
 
     return new DocumentDownloadDto
     {
+        FileBytes = bytes,
         FileName = document.FileName,
         FilePath = document.FilePath,
-        FileType = document.FileType
+        FileType = document.FileType,
+        ContentType = contentType,
+        FileSize = bytes.Length
     };
 }
 

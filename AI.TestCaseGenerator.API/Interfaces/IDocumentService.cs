@@ -14,6 +14,10 @@ namespace AI.TestCaseGenerator.API.Interfaces
             int projectId,
             int userId);
 
+        Task<DocumentResponseDto?> GetDocumentByIdAsync(
+            int documentId,
+            int userId);
+
         Task<DocumentDownloadDto?> DownloadDocumentAsync(
             int documentId,
             int userId);

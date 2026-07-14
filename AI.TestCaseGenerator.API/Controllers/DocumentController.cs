@@ -35,14 +35,25 @@ namespace AI.TestCaseGenerator.API.Controllers
             if (dto.File == null || dto.File.Length == 0)
                 return BadRequest("Please select a file.");
 
-            int userId = GetCurrentUserId();
+            try
+            {
+                int userId = GetCurrentUserId();
 
-            var document = await _documentService.UploadDocumentAsync(dto, dto.File, userId);
+                var document = await _documentService.UploadDocumentAsync(dto, dto.File, userId);
 
-            return CreatedAtAction(
-                nameof(GetDocumentById),
-                new { id = document.Id },
-                document);
+                return CreatedAtAction(
+                    nameof(GetDocumentById),
+                    new { id = document.Id },
+                    document);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
         }
 
         /// <summary>
@@ -52,11 +63,22 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<DocumentResponseDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProjectDocuments(int projectId)
         {
-            int userId = GetCurrentUserId();
+            try
+            {
+                int userId = GetCurrentUserId();
 
-            var documents = await _documentService.GetProjectDocumentsAsync(projectId, userId);
+                var documents = await _documentService.GetProjectDocumentsAsync(projectId, userId);
 
-            return Ok(documents);
+                return Ok(documents);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
         }
 
         /// <summary>
@@ -67,11 +89,28 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDocumentById(int id)
         {
-            return NotFound(new
+            try
             {
-                Success = false,
-                Message = "Document details are not available through the current service contract."
-            });
+                int userId = GetCurrentUserId();
+                var document = await _documentService.GetDocumentByIdAsync(id, userId);
+
+                if (document == null)
+                    return NotFound(new
+                    {
+                        Success = false,
+                        Message = "Document not found."
+                    });
+
+                return Ok(document);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
         }
 
         /// <summary>
@@ -80,17 +119,32 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpGet("download/{id:int}")]
         public async Task<IActionResult> DownloadDocument(int id)
         {
-            int userId = GetCurrentUserId();
+            try
+            {
+                int userId = GetCurrentUserId();
 
-            var file = await _documentService.DownloadDocumentAsync(id, userId);
+                var file = await _documentService.DownloadDocumentAsync(id, userId);
 
-            if (file == null)
-                return NotFound();
+                if (file == null)
+                    return NotFound(new
+                    {
+                        Success = false,
+                        Message = "Document not found."
+                    });
 
-            return File(
-                file.FileBytes,
-                file.ContentType,
-                file.FileName);
+                return File(
+                    file.FileBytes,
+                    file.ContentType,
+                    file.FileName);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
         }
 
         /// <summary>
@@ -99,24 +153,35 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteDocument(int id)
         {
-            int userId = GetCurrentUserId();
-
-            bool deleted = await _documentService.DeleteDocumentAsync(id, userId);
-
-            if (!deleted)
+            try
             {
-                return NotFound(new
+                int userId = GetCurrentUserId();
+
+                bool deleted = await _documentService.DeleteDocumentAsync(id, userId);
+
+                if (!deleted)
                 {
-                    Success = false,
-                    Message = "Document not found."
+                    return NotFound(new
+                    {
+                        Success = false,
+                        Message = "Document not found."
+                    });
+                }
+
+                return Ok(new
+                {
+                    Success = true,
+                    Message = "Document deleted successfully."
                 });
             }
-
-            return Ok(new
+            catch (Exception ex)
             {
-                Success = true,
-                Message = "Document deleted successfully."
-            });
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
         }
 
         /// <summary>
@@ -126,18 +191,29 @@ namespace AI.TestCaseGenerator.API.Controllers
         [HttpPost("process/{id:int}")]
         public async Task<IActionResult> ProcessDocument(int id)
         {
-            var result = await _documentService.ProcessDocumentAsync(id);
+            try
+            {
+                var result = await _documentService.ProcessDocumentAsync(id);
 
-            if (!result.Success)
+                if (!result.Success)
+                {
+                    return BadRequest(new
+                    {
+                        Success = false,
+                        Message = result.Message
+                    });
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(new
                 {
                     Success = false,
-                    Message = result.Message
+                    Message = ex.Message
                 });
             }
-
-            return Ok(result);
         }
 
         private int GetCurrentUserId()
