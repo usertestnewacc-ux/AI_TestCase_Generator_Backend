@@ -223,13 +223,5 @@ private static string GenerateRefreshToken()
     return Convert.ToBase64String(randomNumber);
 }
 
-    }
-
-    public class MappingProfile : Profile
-{
-    public MappingProfile()
-    {
-        CreateMap<User, UserProfileDto>();
-    }
 }
 }
