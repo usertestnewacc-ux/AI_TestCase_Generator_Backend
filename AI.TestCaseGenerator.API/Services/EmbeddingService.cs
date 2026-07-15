@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace AI.TestCaseGenerator.API.Services
 {
@@ -19,53 +21,67 @@ namespace AI.TestCaseGenerator.API.Services
             _configuration = configuration;
         }
         public async Task<float[]> GenerateEmbeddingAsync(string text)
-{
-    var apiKey = _configuration["OpenAI:ApiKey"];
+        {
+            var apiKey = _configuration["OpenAI:ApiKey"];
 
-    var model = _configuration["OpenAI:EmbeddingModel"];
+            var model = _configuration["OpenAI:EmbeddingModel"];
 
-    _httpClient.DefaultRequestHeaders.Authorization =
-        new AuthenticationHeaderValue("Bearer", apiKey);
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", apiKey);
 
-    var requestBody = new
-    {
-        input = text,
-        model = model
-    };
+            var requestBody = new
+            {
+                input = text,
+                model = model
+            };
 
-    var json = JsonSerializer.Serialize(requestBody);
+            var json = JsonSerializer.Serialize(requestBody);
 
-    var content = new StringContent(
-        json,
-        Encoding.UTF8,
-        "application/json");
+            var content = new StringContent(
+                json,
+                Encoding.UTF8,
+                "application/json");
 
-    var response = await _httpClient.PostAsync(
-        "https://api.openai.com/v1/embeddings",
-        content);
+            const int maxRetries = 3;
+            int delayMs = 1000;
 
-    response.EnsureSuccessStatusCode();
+            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            {
+                var response = await _httpClient.PostAsync(
+                    "https://api.openai.com/v1/embeddings",
+                    content);
 
-    var responseJson =
-        await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = await response.Content.ReadAsStringAsync();
 
-    using JsonDocument doc =
-        JsonDocument.Parse(responseJson);
+                    using JsonDocument doc = JsonDocument.Parse(responseJson);
 
-    var embedding =
-        doc.RootElement
-            .GetProperty("data")[0]
-            .GetProperty("embedding");
+                    var embedding = doc.RootElement.GetProperty("data")[0].GetProperty("embedding");
 
-    List<float> vector = new();
+                    List<float> vector = new();
 
-    foreach (var item in embedding.EnumerateArray())
-    {
-        vector.Add(item.GetSingle());
-    }
+                    foreach (var item in embedding.EnumerateArray())
+                    {
+                        vector.Add(item.GetSingle());
+                    }
 
-    return vector.ToArray();
-}
+                    return vector.ToArray();
+                }
+
+                if (response.StatusCode == (HttpStatusCode)429 && attempt < maxRetries)
+                {
+                    await Task.Delay(delayMs);
+                    delayMs *= 2;
+                    continue;
+                }
+
+                var body = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Embedding API failed: {(int)response.StatusCode} - {body}");
+            }
+
+            throw new HttpRequestException("Embedding API failed after retries.");
+        }
 
     }
 }
