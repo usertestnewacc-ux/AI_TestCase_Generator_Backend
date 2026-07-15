@@ -31,11 +31,21 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AskQuestion([FromBody] AIChatRequestDto dto)
         {
-            int userId = GetCurrentUserId();
+            try
+            {
+                int userId = GetCurrentUserId();
 
-            var response = await _aiChatService.AskQuestionAsync(dto, userId);
+                var response = await _aiChatService.AskQuestionAsync(dto, userId);
 
-            return Ok(response);
+                if (response == null || !response.Success)
+                    return BadRequest(new { Success = false, Message = response?.Answer ?? "AI chat failed." });
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Success = false, Message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -86,11 +96,21 @@ namespace AI.TestCaseGenerator.API.Controllers
         [ProducesResponseType(typeof(AIChatResponseDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> RegenerateResponse([FromBody] AIChatRequestDto dto)
         {
-            int userId = GetCurrentUserId();
+            try
+            {
+                int userId = GetCurrentUserId();
 
-            var response = await _aiChatService.AskQuestionAsync(dto, userId);
+                var response = await _aiChatService.AskQuestionAsync(dto, userId);
 
-            return Ok(response);
+                if (response == null || !response.Success)
+                    return BadRequest(new { Success = false, Message = response?.Answer ?? "AI chat failed." });
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Success = false, Message = ex.Message });
+            }
         }
 
         /// <summary>

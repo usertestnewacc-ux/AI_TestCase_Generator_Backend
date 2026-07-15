@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
+using System;
 
 
 
@@ -86,6 +87,16 @@ builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
 builder.Services.AddHttpClient<IClaudeService, ClaudeService>();
 builder.Services.AddHttpClient<IChromaDbService, ChromaDbService>();
+// Register Gemini service (Phase 2): configurable endpoint and timeout
+builder.Services.AddHttpClient<IGeminiService, GeminiService>(client =>
+{
+    var endpoint = builder.Configuration["Gemini:Endpoint"];
+    if (!string.IsNullOrEmpty(endpoint))
+    {
+        client.BaseAddress = new Uri(endpoint);
+    }
+    client.Timeout = TimeSpan.FromSeconds(60);
+});
 builder.Services.AddScoped<IAIChatService, AIChatService>();
 builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 
