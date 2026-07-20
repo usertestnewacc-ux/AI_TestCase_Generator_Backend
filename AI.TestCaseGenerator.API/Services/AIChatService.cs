@@ -11,22 +11,22 @@ namespace AI.TestCaseGenerator.API.Services
     public class AIChatService : IAIChatService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmbeddingService _embeddingService;
+        private readonly IOllamaEmbeddingService _embeddingService;
         private readonly IChromaDbService _chromaDbService;
-        private readonly IClaudeService _claudeService;
+        private readonly IOllamaChatService _ollamaChatService;
         private readonly IMapper _mapper;
 
         public AIChatService(
             ApplicationDbContext context,
-            IEmbeddingService embeddingService,
+            IOllamaEmbeddingService embeddingService,
             IChromaDbService chromaDbService,
-            IClaudeService claudeService,
+            IOllamaChatService ollamaChatService,
             IMapper mapper)
         {
             _context = context;
             _embeddingService = embeddingService;
             _chromaDbService = chromaDbService;
-            _claudeService = claudeService;
+            _ollamaChatService = ollamaChatService;
             _mapper = mapper;
         }
 
@@ -89,10 +89,10 @@ namespace AI.TestCaseGenerator.API.Services
                 string answer;
                 try
                 {
-                    // Claude/OpenAI fallback inside ClaudeService; call it and get answer.
-                    answer = await _claudeService.GenerateResponseAsync(prompt);
+                    System.Diagnostics.Debug.WriteLine("Sending prompt to Ollama");
+                    answer = await _ollamaChatService.AskAsync(prompt);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Provide a best-effort reply when external AI services are unavailable.
                     if (contextChunks != null && contextChunks.Any())
@@ -125,7 +125,7 @@ namespace AI.TestCaseGenerator.API.Services
                     }
                     else
                     {
-                        answer = "[AI service unavailable] I can't reach external AI providers right now (rate limits or billing). Please try again later or add API credits. You can also upload project documents so I can answer from those when the AI is unavailable.";
+                        answer = "[AI service unavailable] I can't reach the local Ollama service right now. Please ensure Ollama is running and the selected model is available. You can also upload project documents so I can answer from those when the AI service is unavailable.";
 
                         var historyFallback = new ChatHistory
                         {
