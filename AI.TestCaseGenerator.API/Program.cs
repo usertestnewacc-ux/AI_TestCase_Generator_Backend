@@ -85,6 +85,7 @@ IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddScoped<IExportService, ExportService>();
 builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
 builder.Services.AddHttpClient<IClaudeService, ClaudeService>();
 builder.Services.AddHttpClient<IChromaDbService, ChromaDbService>();
