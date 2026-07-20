@@ -12,20 +12,20 @@ namespace AI.TestCaseGenerator.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IClaudeService _claudeService;
-        private readonly IEmbeddingService _embeddingService;
+        private readonly IOllamaChatService _ollamaChatService;
+        private readonly IOllamaEmbeddingService _embeddingService;
         private readonly IChromaDbService _chromaDbService;
 
         public TestCaseService(
             ApplicationDbContext context,
             IMapper mapper,
-            IClaudeService claudeService,
-            IEmbeddingService embeddingService,
+            IOllamaChatService ollamaChatService,
+            IOllamaEmbeddingService embeddingService,
             IChromaDbService chromaDbService)
         {
             _context = context;
             _mapper = mapper;
-            _claudeService = claudeService;
+            _ollamaChatService = ollamaChatService;
             _embeddingService = embeddingService;
             _chromaDbService = chromaDbService;
         }
@@ -58,6 +58,9 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
 
     
 
+    if (string.IsNullOrWhiteSpace(request.Prompt))
+        throw new ArgumentException("Prompt is required.", nameof(request.Prompt));
+
     // Verify project exists
     var project = await _context.Projects
         .FirstOrDefaultAsync(p => p.Id == request.ProjectId);
@@ -68,17 +71,17 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
     // Generate embedding for user prompt
     var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Prompt);
 
-    // Search relevant chunks from ChromaDB
+    // Search relevant chunks from ChromaDB using the same project-specific collection as indexing
     var relevantChunks = await _chromaDbService.SearchAsync(
-        project.Name,
+        $"project-{project.Id}",
         embedding,
         5);
 
     // Build RAG prompt
     var prompt = BuildPrompt(request.Prompt, relevantChunks);
 
-    // Send to Claude
-    var aiResponse = await _claudeService.GenerateTestCasesAsync(prompt);
+    // Send to Ollama
+    var aiResponse = await _ollamaChatService.AskAsync(prompt);
 
     // Parse AI response
     var generatedTestCases = ParseTestCases(

@@ -1,3 +1,4 @@
+using AI.TestCaseGenerator.API.Configuration;
 using AI.TestCaseGenerator.API.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -87,16 +88,10 @@ builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
 builder.Services.AddHttpClient<IClaudeService, ClaudeService>();
 builder.Services.AddHttpClient<IChromaDbService, ChromaDbService>();
-// Register Gemini service (Phase 2): configurable endpoint and timeout
-builder.Services.AddHttpClient<IGeminiService, GeminiService>(client =>
-{
-    var endpoint = builder.Configuration["Gemini:Endpoint"];
-    if (!string.IsNullOrEmpty(endpoint))
-    {
-        client.BaseAddress = new Uri(endpoint);
-    }
-    client.Timeout = TimeSpan.FromSeconds(60);
-});
+builder.Services.AddHttpClient<IGeminiService, GeminiService>();
+builder.Services.AddHttpClient<IOllamaChatService, OllamaChatService>(client => client.Timeout = TimeSpan.FromMinutes(5));
+builder.Services.AddHttpClient<IOllamaEmbeddingService, OllamaEmbeddingService>(client => client.Timeout = TimeSpan.FromMinutes(5));
+builder.Services.Configure<OllamaSettings>(builder.Configuration.GetSection("Ollama"));
 builder.Services.AddScoped<IAIChatService, AIChatService>();
 builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 

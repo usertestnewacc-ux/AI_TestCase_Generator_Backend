@@ -37,49 +37,6 @@ namespace AI.TestCaseGenerator.API.Controllers
             return Ok(profile);
         }
 
-        /// <summary>
-        /// Update current user's profile.
-        /// </summary>
-        [HttpPut("profile")]
-        [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateProfile([FromBody] object dto)
-        {
-            return StatusCode(StatusCodes.Status501NotImplemented, new
-            {
-                Success = false,
-                Message = "Profile update is not implemented in the current service layer."
-            });
-        }
-
-        /// <summary>
-        /// Change user password.
-        /// </summary>
-        [HttpPut("change-password")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ChangePassword([FromBody] object dto)
-        {
-            return StatusCode(StatusCodes.Status501NotImplemented, new
-            {
-                Success = false,
-                Message = "Password change is not implemented in the current service layer."
-            });
-        }
-
-        /// <summary>
-        /// Delete current user account.
-        /// </summary>
-        [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult DeleteAccount()
-        {
-            return StatusCode(StatusCodes.Status501NotImplemented, new
-            {
-                Success = false,
-                Message = "Account deletion is not implemented in the current service layer."
-            });
-        }
 
         private int GetCurrentUserId()
         {

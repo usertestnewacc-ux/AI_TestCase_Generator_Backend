@@ -1,10 +1,7 @@
 using AI.TestCaseGenerator.API.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace AI.TestCaseGenerator.API.Services
 {
@@ -13,75 +10,49 @@ namespace AI.TestCaseGenerator.API.Services
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
 
-        public EmbeddingService(
-            HttpClient httpClient,
-            IConfiguration configuration)
+        public EmbeddingService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _configuration = configuration;
         }
+
         public async Task<float[]> GenerateEmbeddingAsync(string text)
         {
-            var apiKey = _configuration["OpenAI:ApiKey"];
-
-            var model = _configuration["OpenAI:EmbeddingModel"];
-
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", apiKey);
+            var baseUrl = _configuration["Ollama:BaseUrl"] ?? "http://localhost:11434";
+            var model = _configuration["Ollama:EmbeddingModel"] ?? "nomic-embed-text";
 
             var requestBody = new
             {
-                input = text,
-                model = model
+                model,
+                input = text
             };
 
             var json = JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var content = new StringContent(
-                json,
-                Encoding.UTF8,
-                "application/json");
+            var response = await _httpClient.PostAsync($"{baseUrl.TrimEnd('/')}/api/embeddings", content);
+            var responseBody = await response.Content.ReadAsStringAsync();
 
-            const int maxRetries = 3;
-            int delayMs = 1000;
-
-            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await _httpClient.PostAsync(
-                    "https://api.openai.com/v1/embeddings",
-                    content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseJson = await response.Content.ReadAsStringAsync();
-
-                    using JsonDocument doc = JsonDocument.Parse(responseJson);
-
-                    var embedding = doc.RootElement.GetProperty("data")[0].GetProperty("embedding");
-
-                    List<float> vector = new();
-
-                    foreach (var item in embedding.EnumerateArray())
-                    {
-                        vector.Add(item.GetSingle());
-                    }
-
-                    return vector.ToArray();
-                }
-
-                if (response.StatusCode == (HttpStatusCode)429 && attempt < maxRetries)
-                {
-                    await Task.Delay(delayMs);
-                    delayMs *= 2;
-                    continue;
-                }
-
-                var body = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Embedding API failed: {(int)response.StatusCode} - {body}");
+                throw new HttpRequestException($"Ollama embedding request failed: {(int)response.StatusCode} - {responseBody}");
             }
 
-            throw new HttpRequestException("Embedding API failed after retries.");
-        }
+            using var document = JsonDocument.Parse(responseBody);
 
+            if (document.RootElement.TryGetProperty("embedding", out var embeddingElement))
+            {
+                var vector = new List<float>();
+
+                foreach (var item in embeddingElement.EnumerateArray())
+                {
+                    vector.Add(item.TryGetSingle(out var singleValue) ? singleValue : (float)item.GetDouble());
+                }
+
+                return vector.ToArray();
+            }
+
+            throw new HttpRequestException("Ollama embedding response was unexpected.");
+        }
     }
 }
