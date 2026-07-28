@@ -48,7 +48,7 @@ namespace AI.TestCaseGenerator.API.Services
                 var row = i + 2;
                 var tc = testCases[i];
                 worksheet.Cell(row, 1).Value = tc.Title;
-                worksheet.Cell(row, 2).Value = tc.ModuleName;
+                worksheet.Cell(row, 2).Value = string.IsNullOrWhiteSpace(tc.ModuleName) ? "General" : tc.ModuleName;
                 worksheet.Cell(row, 3).Value = tc.TestType;
                 worksheet.Cell(row, 4).Value = tc.Priority;
                 worksheet.Cell(row, 5).Value = tc.Preconditions;
@@ -94,7 +94,7 @@ namespace AI.TestCaseGenerator.API.Services
                             column.Item().PaddingBottom(12).Border(1).Padding(8).Column(inner =>
                             {
                                 inner.Item().Text(tc.Title).SemiBold().FontSize(14);
-                                inner.Item().Text($"Module: {tc.ModuleName}");
+                                inner.Item().Text($"Module: {(string.IsNullOrWhiteSpace(tc.ModuleName) ? "General" : tc.ModuleName)}");
                                 inner.Item().Text($"Type: {tc.TestType}");
                                 inner.Item().Text($"Priority: {tc.Priority}");
                                 inner.Item().Text($"Preconditions: {tc.Preconditions}");

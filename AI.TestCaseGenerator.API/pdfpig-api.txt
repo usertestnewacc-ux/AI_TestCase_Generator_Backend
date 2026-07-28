@@ -1,0 +1,2291 @@
+﻿
+              <summary>
+>             A collection of interactive fields for gathering data from a 
+user through dropdowns, textboxes, checkboxes, etc.
+              Each <see cref="T:UglyToad.PdfPig.PdfDocument"/> with form 
+functionality contains a single <see 
+cref="T:UglyToad.PdfPig.AcroForms.AcroForm"/> spread across one or more pages.
+              <summary>
+>             The combo box includes an editable text box. <see 
+cref="F:UglyToad.PdfPig.AcroForms.Fields.AcroChoiceFieldFlags.Combo"/> must be 
+set.
+              </summary>
+              <summary>
+>             The text entered in the field is not spell checked. <see 
+cref="F:UglyToad.PdfPig.AcroForms.Fields.AcroChoiceFieldFlags.Combo"/> and 
+<see cref="F:UglyToad.PdfPig.AcroForms.Fields.AcroChoiceFieldFlags.Edit"/> 
+must be set.
+              </summary>
+              <summary>
+>             The text of the option.
+              </summary>
+              <summary>
+>             A combo box consisting of a drop-down list optionally 
+accompanied by an editable text box in which the
+              user can type a value other than the predefined choices.
+          </member>
+>         <member name="F:UglyToad.PdfPig.AcroForms.Fields.AcroFieldType.Text">
+              <summary>
+>             A textbox allowing user input through the keyboard.
+              </summary>
+              <summary>
+>             A dropdown list of options with optional user-editable textbox.
+              </summary>
+          </member>
+>         <member name="T:UglyToad.PdfPig.AcroForms.Fields.AcroTextField">
+              <inheritdoc />
+              <summary>
+>             A text field is a box or space in which the user can enter text 
+from the keyboard.
+>             The text may be restricted to a single line or may be permitted 
+to span multiple lines.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.Flags">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.Value">
+              <summary>
+>             The value of the text in this text field.
+              This can be <see langword="null"/> if no value has been set.
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.MaxLength">
+              <summary>
+>             The optional maximum length of the text field.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.IsRichText">
+              <summary>
+>             Whether the field supports rich text content.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.IsMultiline">
+              <summary>
+>             Whether the field allows multiline text.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.#ctor(
+UglyToad.PdfPig.Tokens.DictionaryToken,System.String,UglyToad.PdfPig.AcroForms.
+Fields.AcroTextFieldFlags,UglyToad.PdfPig.AcroForms.Fields.AcroFieldCommonInfor
+mation,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32
+},System.Nullable{UglyToad.PdfPig.Core.PdfRectangle})">
+              <inheritdoc />
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.AcroForms.Fields.AcroTextField" />.
+              </summary>
+              <param name="information">Additional information for this 
+field.</param>
+>             <param name="value">The text value.</param>
+              <param name="maxLength">The maximum length.</param>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.AcroForms.Fields.AcroTextField.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags">
+              <summary>
+>             Flags specifying various characteristics of a text type field in 
+an <see cref="T:UglyToad.PdfPig.AcroForms.Fields.AcroFieldBase"/>.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.ReadOnly">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.Required">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.NoExport">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.Multiline">
+              <summary>
+>             The field can contain multiple lines of text.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.Password">
+              <summary>
+>             The field is for a password and should not be displayed as text 
+and should not be stored to file.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.FileSelect">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.DoNotSpellCheck">
+              <summary>
+>             The text entered is not spell checked.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.DoNotScroll">
+              <summary>
+>             The field does not scroll if the text exceeds the bounds of the 
+field.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.Comb">
+              <summary>
+>             For a text field which is not a <see 
+cref="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.Password"/>, <see 
+cref="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.Multiline"/> or 
+<see cref="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.FileSelect"/>
+>             the field text is evenly spaced by splitting into 'combs' based 
+on the MaxLen entry in the field dictionary.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.AcroForms.Fields.AcroTextFieldFlags.RichText">
+              <summary>
+>             The value of the field is a rich text string.
+              </summary>
+              <summary>
+>             The annotation text, or if the annotation does not display text, 
+a description of the annotation's contents. Optional.
+              </summary>
+              Rectangles defined using QuadPoints, for <see 
+cref="F:UglyToad.PdfPig.Annotations.AnnotationType.Link"/> these are the 
+regions used to activate the link,
+>             for text markup annotations these are the text regions to apply 
+the markup to.
+              See <see 
+cref="P:UglyToad.PdfPig.Annotations.QuadPointsQuadrilateral.Points"/> for more 
+information regarding the order of the points.
+          </member>
+>         <member name="F:UglyToad.PdfPig.Annotations.AnnotationType.Text">
+              <summary>
+>             A 'sticky note' style annotation displaying some text with 
+open/closed pop-up state.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Annotations.AnnotationType.FreeText">
+              <summary>
+>             Displays text on the page. Unlike <see 
+cref="F:UglyToad.PdfPig.Annotations.AnnotationType.Text"/> there is no 
+associated pop-up.
+              </summary>
+              <summary>
+>             A highlight for text or content with associated annotation texyt.
+              </summary>
+              <summary>
+>             An underline under text with associated annotation text.
+              </summary>
+              <summary>
+>             A jagged squiggly line under text with associated annotation 
+text.
+              </summary>
+              <summary>
+>             A strikeout through some text with associated annotation text.
+              </summary>
+              <summary>
+>             Text or graphics intended to display as if inserted by a rubber 
+stamp.
+              </summary>
+              <summary>
+>             A visual symbol indicating the presence of text edits.
+              </summary>
+              <summary>
+>             Displays text in a pop-up window for entry or editing.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Content.BasePageFactory`1.ParsingOptions">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Content.BasePageFactory`1.#ctor(UglyT
+oad.PdfPig.Tokenization.Scanner.IPdfTokenScanner,UglyToad.PdfPig.Content.IResou
+rceStore,UglyToad.PdfPig.Filters.ILookupFilterProvider,UglyToad.PdfPig.Parser.I
+PageContentParser,UglyToad.PdfPig.ParsingOptions)">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Hyperlink.Text">
+              <summary>
+>             The text in the link region (if any).
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Hyperlink.Letters">
+              <summary>
+>             The letters in the link region.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Content.IResourceStore.GetExtendedGra
+phicsStateDictionary(UglyToad.PdfPig.Tokens.NameToken)">
+              <summary>
+              <summary>
+>             The text for this letter or unicode character.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Letter.TextOrientation">
+              <summary>
+>             Text orientation of the letter.
+              </summary>
+              Position of the bounding box for the glyph, this is the box 
+surrounding the visible glyph as it appears on the page.
+>             For example letters with descenders, p, j, etc., will have a box 
+extending below the <see cref="P:UglyToad.PdfPig.Content.Letter.Location"/> 
+they are placed at.
+              The width of the glyph may also be more or less than the <see 
+cref="P:UglyToad.PdfPig.Content.Letter.Width"/> allocated for the character in 
+the PDF content.
+              <summary>
+>             Text rendering mode that indicates whether we should draw this 
+letter's strokes,
+>             fill, both, neither (in case of hidden text), etc.
+              If it calls for stroking the <see 
+cref="P:UglyToad.PdfPig.Content.Letter.StrokeColor" /> is used.
+              The primary color of the letter, which is either the <see 
+cref="P:UglyToad.PdfPig.Content.Letter.StrokeColor"/> in case
+>             <see cref="P:UglyToad.PdfPig.Content.Letter.RenderingMode"/> is 
+<see cref="F:UglyToad.PdfPig.Core.TextRenderingMode.Stroke"/>, or otherwise
+              it is the <see 
+cref="P:UglyToad.PdfPig.Content.Letter.FillColor"/>.
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Letter.TextSequence">
+              <summary>
+>             Sequence number of the ShowText operation that printed this 
+letter.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Content.Letter.#ctor(System.String,Ug
+lyToad.PdfPig.Core.PdfRectangle,UglyToad.PdfPig.Core.PdfPoint,UglyToad.PdfPig.C
+ore.PdfPoint,System.Double,System.Double,UglyToad.PdfPig.PdfFonts.FontDetails,U
+glyToad.PdfPig.Core.TextRenderingMode,UglyToad.PdfPig.Graphics.Colors.IColor,Ug
+lyToad.PdfPig.Graphics.Colors.IColor,System.Double,System.Int32)">
+              <summary>
+>             Create a new letter to represent some text drawn by the Tj 
+operator.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Content.MarkedContentElement.Letters">
+              <summary>
+>             Letters contained in this marked content.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Content.MarkedContentElement.ActualText">
+              <summary>
+>             The replacement text.
+              </summary>
+              <summary>
+>             The abbreviation expansion text.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Letters">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Text">
+              <summary>
+>             The full text of all characters on the page in the order they 
+are presented in the PDF content.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Content.Page.GetWords">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Content.Page.GetWords(UglyToad.PdfPig
+.Util.IWordExtractor)">
+              <summary>
+              This should contain a replayable stack of drawing instructions 
+for page content
+>             from a content stream in addition to lazily evaluated state such 
+as text on the page or images.
+              </remarks>
+          </member>
+>         <member name="T:UglyToad.PdfPig.Content.TextOrientation">
+              <summary>
+>             Orientation of the text.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Content.TextOrientation.Other">
+              <summary>
+>             Other text orientation.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Content.TextOrientation.Horizontal">
+              <summary>
+>             Usual text orientation (Left to Right).
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Content.TextOrientation.Rotate180">
+              <summary>
+>             Horizontal text, upside down.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Content.TextOrientation.Rotate90">
+              <summary>
+>             Rotated text going down.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Content.TextOrientation.Rotate270">
+              <summary>
+>             Rotated text going up.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Word.Text">
+              <summary>
+>             The text of the word.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Word.TextOrientation">
+              <summary>
+>             The text orientation of the word.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Word.Letters">
+              <summary>
+>             The letters contained in the word.
+              </summary>
+              </summary>
+>             <param name="letters">The letters contained in the word, in the 
+correct order.</param>
+          </member>
+              Wraps an XML based Extensible Metadata Platform (XMP) document. 
+These XML documents are embedded in PDFs to provide metadata
+>             about objects (the entire document, images, etc). They can be 
+present as plain text or encoded/encrypted streams.
+              </summary>
+              <summary>
+>             Get the decoded bytes for the metadata stream. This can be 
+interpreted as a sequence of plain-text bytes.
+              </summary>
+              Modify the contents of the document by operations other than 
+those
+>             controlled by <see cref="F:UglyToad.PdfPig.Encryption.UserAccessP
+ermissions.AddOrModifyTextAnnotationsAndFillFormFields"/>, <see cref="F:UglyToa
+d.PdfPig.Encryption.UserAccessPermissions.FillExistingFormFields"/> and <see 
+cref="F:UglyToad.PdfPig.Encryption.UserAccessPermissions.AssembleDocument"/>. 
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Encryption.UserAccessPermissions.CopyTextAndGraphics">
+              <summary>
+>             (Revision 2) Copy or otherwise extract text and graphics from 
+the document, including extracting text and graphics
+              (in support of accessibility to users with disabilities or for 
+other purposes).
+>             (Revision 3 or greater) Copy or otherwise extract text and 
+graphics from the document by operations other
+>             than that controlled by <see cref="F:UglyToad.PdfPig.Encryption.U
+serAccessPermissions.ExtractTextAndGraphics"/>. 
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Encryption.UserAccessPermissions.AddO
+rModifyTextAnnotationsAndFillFormFields">
+              <summary>
+>             Add or modify text annotations, fill in interactive form fields, 
+and, if <see 
+cref="F:UglyToad.PdfPig.Encryption.UserAccessPermissions.Modify"/> is also set,
+              create or modify interactive form fields (including signature 
+fields). 
+              (Revision 3 or greater) Fill in existing interactive form fields 
+(including signature fields),
+>             even if <see cref="F:UglyToad.PdfPig.Encryption.UserAccessPermiss
+ions.AddOrModifyTextAnnotationsAndFillFormFields"/> is clear. 
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Encryption.UserAccessPermissions.Extr
+actTextAndGraphics">
+              <summary>
+>             (Revision 3 or greater) Extract text and graphics (in support of 
+accessibility to users with disabilities or for other purposes). 
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Exceptions.PdfDocumentEncryptedExcept
+ion.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Seriali
+zation.StreamingContext)">
+              <inheritdoc />
+              <summary>
+>             ASCII 85 (Base85) is a binary to text encoding using 5 ASCII 
+characters per 4 bytes of data.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Functions.Type4.ExecutionContext.Stack">
+              <summary>
+>             The stack used by this execution context.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Functions.Type4.ExecutionContext.#cto
+r(UglyToad.PdfPig.Functions.Type4.Operators)">
+              <summary>
+>             Creates a new execution context.
+              </summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Functions.Type4.ExecutionContext.GetOperators">
+              <summary>
+>             Returns the operator set used by this execution context.
+              </summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Functions.Type4.ExecutionContext.PopNumber">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Functions.Type4.ExecutionContext.PopInt">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Functions.Type4.ExecutionContext.PopReal">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Functions.Type4.InstructionSequence.E
+xecute(UglyToad.PdfPig.Functions.Type4.ExecutionContext)">
+              <summary>
+              </summary>
+>             <param name="context">the execution context</param>
+          </member>
+              <summary>
+>             Parses the given text into an instruction sequence representing 
+a Type 4 function that can be executed.
+              </summary>
+>             <param name="text">the Type 4 function text</param>
+              <returns>the instruction sequence</returns>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Functions.Type4.Operator.Execute(Ugly
+Toad.PdfPig.Functions.Type4.ExecutionContext)">
+              <summary>
+              </summary>
+>             <param name="context">the execution context</param>
+          </member>
+              </summary>
+>             <param name="input">the text source</param>
+              <param name="handler">the syntax handler</param>
+              </summary>
+>             <param name="text">the new line character (CR, LF, CR/LF or 
+FF)</param>
+          </member>
+              </summary>
+>             <param name="text">the whitespace text</param>
+          </member>
+              </summary>
+>             <param name="text">the token text</param>
+          </member>
+              </summary>
+>             <param name="text">the comment</param>
+          </member>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.ParsingOptions">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.TextSequence">
+              <summary>
+>             A counter to track individual calls to <see cref="M:UglyToad.PdfP
+ig.Graphics.BaseStreamProcessor`1.ShowText(UglyToad.PdfPig.Core.IInputBytes)"/>
+ operations used to determine if letters are likely to be
+>             in the same word/group. This exposes internal grouping of 
+letters used by the PDF creator which may correspond to the
+>             intended grouping of letters into words.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.TextMatrices">
+              <inheritdoc/>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.#ctor(
+System.Int32,UglyToad.PdfPig.Content.IResourceStore,UglyToad.PdfPig.Tokenizatio
+n.Scanner.IPdfTokenScanner,UglyToad.PdfPig.Parser.IPageContentParser,UglyToad.P
+dfPig.Filters.ILookupFilterProvider,UglyToad.PdfPig.Content.CropBox,UglyToad.Pd
+fPig.Geometry.UserSpaceUnit,UglyToad.PdfPig.Content.PageRotationDegrees,UglyToa
+d.PdfPig.Core.TransformationMatrix,UglyToad.PdfPig.ParsingOptions)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.ShowTe
+xt(UglyToad.PdfPig.Core.IInputBytes)">
+              <inheritdoc/>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.Render
+Glyph(UglyToad.PdfPig.PdfFonts.IFont,UglyToad.PdfPig.Graphics.Colors.IColor,Ugl
+yToad.PdfPig.Graphics.Colors.IColor,UglyToad.PdfPig.Core.TextRenderingMode,Syst
+em.Double,System.Double,System.Int32,System.String,System.Int64,UglyToad.PdfPig
+.Core.TransformationMatrix,UglyToad.PdfPig.Core.TransformationMatrix,UglyToad.P
+dfPig.Core.TransformationMatrix,UglyToad.PdfPig.PdfFonts.CharacterBoundingBox)"
+>
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.ShowPo
+sitionedText(System.Collections.Generic.IReadOnlyList{UglyToad.PdfPig.Tokens.IT
+oken})">
+              <inheritdoc/>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.SetTex
+tLeading(System.Double)">
+              <inheritdoc/>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.SetTex
+tRenderingMode(UglyToad.PdfPig.Core.TextRenderingMode)">
+              <inheritdoc/>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.BaseStreamProcessor`1.SetTex
+tRise(System.Double)">
+              <inheritdoc/>
+              <summary>
+>             A color used for text or paths in a PDF.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.ContentStreamProcessor.letters">
+              <summary>
+              <summary>
+>             The current state of text related parameters for a content 
+stream.
+              </summary>
+              <summary>
+>             A value in unscaled text space units which is added to the 
+horizontal (or vertical if in vertical writing mode)
+              glyph displacement.
+              <remarks>
+>             In horizontal writing mode a positive value will expand the 
+distance between letters/glyphs.
+              Default value 0.
+              <summary>
+>             Adjusts the width of glyphs/letters by stretching (or 
+compressing) them horizontally.
+              Value is a percentage of the normal width.
+              <summary>
+>             The vertical distance in unscaled text space units between the 
+baselines of lines of text.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.CurrentFontState.TextRenderingMode">
+              <summary>
+>             The <see 
+cref="P:UglyToad.PdfPig.Graphics.CurrentFontState.TextRenderingMode"/> for 
+glyph outlines.
+              </summary>
+              <summary>
+>             The distance in unscaled text space units to move the default 
+baseline either up or down.
+              </summary>
+              <summary>
+>             Are all glyphs in a text object treated as a single elementary 
+object for the purpose of the transparent imaging model?
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.CurrentGraphicsState.ColorSpaceContext">
+              <summary>
+              <summary>
+>             The current active non-stroking color for text and fill.
+              </summary>
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.IColorSpaceContext">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.IColorSpaceContext.CurrentStrokingColorSpace">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.IColorSpaceContext.CurrentNo
+nStrokingColorSpace">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetStroki
+ngColorspace(UglyToad.PdfPig.Tokens.NameToken,UglyToad.PdfPig.Tokens.Dictionary
+Token)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetNonStr
+okingColorspace(UglyToad.PdfPig.Tokens.NameToken,UglyToad.PdfPig.Tokens.Diction
+aryToken)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetStroki
+ngColor(System.Collections.Generic.IReadOnlyList{System.Decimal},UglyToad.PdfPi
+g.Tokens.NameToken)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetStroki
+ngColorGray(System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetStroki
+ngColorRgb(System.Decimal,System.Decimal,System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetStroki
+ngColorCmyk(System.Decimal,System.Decimal,System.Decimal,System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetNonStr
+okingColor(System.Collections.Generic.IReadOnlyList{System.Decimal},UglyToad.Pd
+fPig.Tokens.NameToken)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetNonStr
+okingColorGray(System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetNonStr
+okingColorRgb(System.Decimal,System.Decimal,System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IColorSpaceContext.SetNonStr
+okingColorCmyk(System.Decimal,System.Decimal,System.Decimal,System.Decimal)">
+              <summary>
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.IOperationContext">
+              <summary>
+>             The current graphics state context when running a PDF content 
+stream.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.IOperationContext.CurrentPosition">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.IOperationContext.TextMatrices">
+              <summary>
+>             The matrices for the current text state.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.IOperationContext.StackSize">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.GetCurrentState">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.PopState">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.PushState">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.ShowText(U
+glyToad.PdfPig.Core.IInputBytes)">
+              <summary>
+>             Shows the text represented by the provided bytes using the 
+current graphics state.
+              </summary>
+>             <param name="bytes">The bytes of the text.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.ShowPositi
+onedText(System.Collections.Generic.IReadOnlyList{UglyToad.PdfPig.Tokens.IToken
+})">
+              <summary>
+>             Interprets the tokens to draw text at positions.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.ApplyXObje
+ct(UglyToad.PdfPig.Tokens.NameToken)">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.BeginSubpath">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.CloseSubpath">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.StrokePath(System.Boolean)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.FillPath(U
+glyToad.PdfPig.Core.FillingRule,System.Boolean)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.FillStroke
+Path(UglyToad.PdfPig.Core.FillingRule,System.Boolean)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.MoveTo(Sys
+tem.Double,System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.BezierCurv
+eTo(System.Double,System.Double,System.Double,System.Double,System.Double,Syste
+m.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.BezierCurv
+eTo(System.Double,System.Double,System.Double,System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.LineTo(Sys
+tem.Double,System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.Rectangle(
+System.Double,System.Double,System.Double,System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.EndPath">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.ClosePath">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.BeginMarke
+dContent(UglyToad.PdfPig.Tokens.NameToken,UglyToad.PdfPig.Tokens.NameToken,Ugly
+Toad.PdfPig.Tokens.DictionaryToken)">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.EndMarkedContent">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetNamedGr
+aphicsState(UglyToad.PdfPig.Tokens.NameToken)">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.BeginInlineImage">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetInlineI
+mageProperties(System.Collections.Generic.IReadOnlyDictionary{UglyToad.PdfPig.T
+okens.NameToken,UglyToad.PdfPig.Tokens.IToken})">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.EndInlineI
+mage(System.Collections.Generic.IReadOnlyList{System.Byte})">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.ModifyClip
+pingIntersect(UglyToad.PdfPig.Core.FillingRule)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetFlatnes
+sTolerance(System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetLineCap
+(UglyToad.PdfPig.Graphics.Core.LineCapStyle)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetLineDas
+hPattern(UglyToad.PdfPig.Graphics.Core.LineDashPattern)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetLineJoi
+n(UglyToad.PdfPig.Graphics.Core.LineJoinStyle)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetLineWid
+th(System.Decimal)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetMiterLi
+mit(System.Decimal)">
+              <summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.MoveToNextLineWithOffset">
+              <summary>
+              This performs this operation: 0 -Tl Td
+>             The offset is negative leading text (Tl) value, this is 
+incorrect in the specification.
+              </remarks>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetFontAnd
+Size(UglyToad.PdfPig.Tokens.NameToken,System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetHorizon
+talScaling(System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetTextLea
+ding(System.Double)">
+              <summary>
+>             Set the text leading.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetTextRen
+deringMode(UglyToad.PdfPig.Core.TextRenderingMode)">
+              <summary>
+>             Set the text rendering mode.
+              </summary>
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetTextRise(System.Double)">
+              <summary>
+>             Set text rise.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetWordSpa
+cing(System.Double)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.ModifyCurr
+entTransformationMatrix(System.Double[])">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.SetCharact
+erSpacing(System.Double)">
+              <summary>
+>             Set the character spacing to a number expressed in unscaled text 
+space units.
+              Initial value: 0.
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.IOperationContext.PaintShadi
+ng(UglyToad.PdfPig.Tokens.NameToken)">
+              <summary>
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.OperationContextHelper">
+              <summary>
+>             Operation context helper methods.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.OperationContextHelper.GetIn
+itialMatrix(UglyToad.PdfPig.Geometry.UserSpaceUnit,UglyToad.PdfPig.Content.Medi
+aBox,UglyToad.PdfPig.Content.CropBox,UglyToad.PdfPig.Content.PageRotationDegree
+s,UglyToad.PdfPig.Logging.ILog)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.ClippingPaths.Mod
+ifyClippingByEvenOddIntersect.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.ClippingPaths.Mod
+ifyClippingByNonZeroWindingIntersect.Run(UglyToad.PdfPig.Graphics.IOperationCon
+text)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.Compatibility.Beg
+inCompatibilitySection.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.Compatibility.End
+CompatibilitySection.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetColorR
+enderingIntent.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetFlatne
+ssTolerance.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetLineCa
+p.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetLineDa
+shPattern.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetLineJo
+in.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetLineWi
+dth.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.General.SetMiterL
+imit.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.IGraphicsStateOpe
+ration.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <summary>
+>             Applies the operation to the current context with the provided 
+resources.
+>             <para>Matrix transformations should be implemented in <see 
+cref="T:UglyToad.PdfPig.Graphics.IOperationContext"/>.</para>
+              </summary>
+>             <param name="operationContext"></param>
+          </member>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.InlineImages.Begi
+nInlineImage.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.InlineImages.Begi
+nInlineImageData.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.InlineImages.EndI
+nlineImage.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.InvokeNamedXObjec
+t.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.MarkedContent.Beg
+inMarkedContent.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.MarkedContent.Beg
+inMarkedContentWithProperties.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.MarkedContent.Des
+ignateMarkedContentPoint.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.MarkedContent.Des
+ignateMarkedContentPointWithProperties.Run(UglyToad.PdfPig.Graphics.IOperationC
+ontext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.MarkedContent.End
+MarkedContent.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PaintShading.Run(
+UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+AppendDualControlPointBezierCurve.Run(UglyToad.PdfPig.Graphics.IOperationContex
+t)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+AppendEndControlPointBezierCurve.Run(UglyToad.PdfPig.Graphics.IOperationContext
+)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+AppendRectangle.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+AppendStartControlPointBezierCurve.Run(UglyToad.PdfPig.Graphics.IOperationConte
+xt)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+AppendStraightLineSegment.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+BeginNewSubpath.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathConstruction.
+CloseSubpath.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Clos
+eAndStrokePath.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Clos
+eFillPathEvenOddRuleAndStroke.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Clos
+eFillPathNonZeroWindingAndStroke.Run(UglyToad.PdfPig.Graphics.IOperationContext
+)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.EndP
+ath.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Fill
+PathEvenOddRule.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Fill
+PathEvenOddRuleAndStroke.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Fill
+PathNonZeroWinding.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Fill
+PathNonZeroWindingAndStroke.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Fill
+PathNonZeroWindingCompatibility.Run(UglyToad.PdfPig.Graphics.IOperationContext)
+">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.PathPainting.Stro
+kePath.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetNonStrokeColor
+.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetNonStrokeColor
+Advanced.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetNonStrokeColor
+DeviceCmyk.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetNonStrokeColor
+DeviceGray.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetNonStrokeColor
+DeviceRgb.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetNonStrokeColor
+Space.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetStrokeColor.Ru
+n(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetStrokeColorAdv
+anced.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetStrokeColorDev
+iceCmyk.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetStrokeColorDev
+iceGray.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetStrokeColorDev
+iceRgb.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SetStrokeColorSpa
+ce.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SpecialGraphicsSt
+ate.ModifyCurrentTransformationMatrix.Run(UglyToad.PdfPig.Graphics.IOperationCo
+ntext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SpecialGraphicsSt
+ate.Pop.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SpecialGraphicsSt
+ate.Push.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.SpecialGraphicsSt
+ate.SetGraphicsStateParametersFromDictionary.Run(UglyToad.PdfPig.Graphics.IOper
+ationContext)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextObjects.BeginText">
+              <inheritdoc />
+              <summary>
+>             Begin a text object, initializing the text matrix and the text 
+line matrix to the identity matrix. Text objects cannot be nested.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextObjects.BeginText.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextObjects.BeginText.Value">
+              <summary>
+>             The instance of the <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextObjects.BeginText"/> operation.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextObjects.BeginText.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextObjects.Begin
+Text.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextObjects.Begin
+Text.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextObjects.BeginText.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndText">
+              <inheritdoc />
+              <summary>
+>             End a text object, discarding the text matrix.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndText.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndText.Value">
+              <summary>
+>             The instance of the <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndText"/> operation.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndText.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndTe
+xt.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndTe
+xt.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextObjects.EndText.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextPositioning.MoveToNextLine">
+              <inheritdoc />
+              This performs this operation: 0 -Tl Td
+>             The offset is negative leading text (Tl) value, this is 
+incorrect in the specification.
+              </remarks>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLine.Symbol">
+              <summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLine.Value">
+              <summary>
+>             The instance of the <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextPositioning.MoveToNextLine"/> 
+operation.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLine.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLine.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLine.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLine.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset">
+              <inheritdoc />
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.Tx">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.Ty">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.#ctor(System.Decimal,System.Decimal)">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tPositioning.MoveToNextLineWithOffset"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffset.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading">
+              <inheritdoc />
+              Move to the start of the next line, offset from the start of the 
+current line by (tx, ty).
+>             This operator also sets the leading parameter in the text state.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.Tx">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.Ty">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.#ctor(System.Decimal,System.Decimal)">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tPositioning.MoveToNextLineWithOffsetSetLeading"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.Run(UglyToad.PdfPig.Graphics.IOperationContex
+t)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.M
+oveToNextLineWithOffsetSetLeading.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextPositioning.SetTextMatrix">
+              <inheritdoc />
+              <summary>
+>             Set the text matrix and the text line matrix.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.Value">
+              <summary>
+>             The values of the text matrix.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.#ctor(System.Decimal[])">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextPositioning.SetTextMatrix"/>.
+              </summary>
+>             <param name="value">The values of the text matrix.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextPositioning.S
+etTextMatrix.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText">
+              <inheritdoc />
+              <summary>
+>             Move to the next line and show a text string.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.Text">
+              <summary>
+>             The text to show as a <see cref="T:System.String"/>.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.Bytes">
+              <summary>
+>             The text to show as hex bytes.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.#ctor(System.String)">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tShowing.MoveToNextLineShowText"/>.
+              </summary>
+>             <param name="text">The text to show.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.#ctor(System.Byte[])">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tShowing.MoveToNextLineShowText"/>.
+              </summary>
+>             <param name="hexBytes">The bytes of the text to show.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowText.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing">
+              <inheritdoc />
+              <summary>
+>             Move to the next line and show a text string, using the first 
+number as the word spacing and the second as the character spacing.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.WordSpacing">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.CharacterSpacing">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.Bytes">
+              <summary>
+>             The bytes of the text.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.Text">
+              <summary>
+>             The text to show.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.#ctor(System.Decimal,System.Decimal,System.String)
+">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tShowing.MoveToNextLineShowTextWithSpacing"/>.
+              </summary>
+              <param name="characterSpacing">The character spacing.</param>
+>             <param name="text">The text to show.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.#ctor(System.Decimal,System.Decimal,System.Byte[])
+">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tShowing.MoveToNextLineShowTextWithSpacing"/>.
+              </summary>
+              <param name="characterSpacing">The character spacing.</param>
+>             <param name="hexBytes">The bytes of the text to show.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.MoveT
+oNextLineShowTextWithSpacing.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText">
+              <inheritdoc />
+              <summary>
+>             Show a text string
+              </summary>
+              (Abc) Tj is equivalent to (A) Tj (b) Tj (c) Tj<br />
+>             However grouping character codes makes the document easier to 
+search and extract text from.
+              </para>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText.Operator">
+              <inheritdoc />
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText.Text">
+              <summary>
+>             The text string to show.
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText.Bytes">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+ext.#ctor(System.String)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+ext.#ctor(System.Byte[])">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+ext.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+ext.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning">
+              <inheritdoc />
+              <summary>
+>             Show one or more text strings, allowing individual glyph 
+positioning. 
+              Each element of array can be a string or a number.
+              If the element is a string, this operator shows the string. 
+>             If it is a number, the operator adjusts the text position by 
+that amount
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning.Array">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning.#ctor(System.Collections.Generic.IReadOnlyList{UglyToad.Pdf
+Pig.Tokens.IToken})">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tShowing.ShowTextsWithPositioning"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowT
+extsWithPositioning.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetCharacterSpacing">
+              <inheritdoc />
+              <summary>
+>             Set the character spacing to a number expressed in unscaled text 
+space units.
+              Initial value: 0. 
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.Spacing">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.#ctor(System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetCharacterSpacing"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetChar
+acterSpacing.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize">
+              <inheritdoc />
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize.Operator">
+              <inheritdoc />
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize.Font">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize.Size">
+              <summary>
+>             The font program defines glyphs for a standard size. This 
+standard size is set so that each line of text will occupy 1 unit in user 
+space.
+              The size is the scale factor used to scale glyphs from the 
+standard size to the display size rather than the font size in points.
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetFont
+AndSize.#ctor(UglyToad.PdfPig.Tokens.NameToken,System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetFont
+AndSize.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetFont
+AndSize.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetFontAndSize.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetHorizontalScaling">
+              <inheritdoc />
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.Scale">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.#ctor(System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetHorizontalScaling"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetHori
+zontalScaling.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextLeading">
+              <inheritdoc />
+              <summary>
+>             Set the text leading.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextLeading.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextLeading.Operator">
+              <inheritdoc />
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextLeading.Leading">
+              <summary>
+>             The text leading in unscaled text space units.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+Leading.#ctor(System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextLeading"/>.
+              </summary>
+>             <param name="leading">The text leading.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+Leading.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+Leading.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextLeading.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRenderingMode">
+              <inheritdoc />
+              <summary>
+>             Set the text rendering mode.
+              </summary>
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.Mode">
+              <summary>
+>             The text rendering mode to set.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.#ctor(UglyToad.PdfPig.Core.TextRenderingMode)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRenderingMode"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.#ctor(System.Int32)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRenderingMode"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+RenderingMode.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRise">
+              <inheritdoc />
+              <summary>
+>             Set text rise.
+              </summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRise.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRise.Operator">
+              <inheritdoc />
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRise.Rise">
+              <summary>
+>             The amount of text rise - how far to move the baseline up or 
+down from its default location.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+Rise.#ctor(System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRise"/>.
+              </summary>
+>             <param name="rise">The text rise.</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+Rise.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetText
+Rise.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetTextRise.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetWordSpacing">
+              <summary>
+          </member>
+>         <member 
+name="F:UglyToad.PdfPig.Graphics.Operations.TextState.SetWordSpacing.Symbol">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetWordSpacing.Operator">
+              <inheritdoc />
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.Operations.TextState.SetWordSpacing.Spacing">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetWord
+Spacing.#ctor(System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.SetWordSpacing"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetWord
+Spacing.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetWord
+Spacing.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member 
+name="M:UglyToad.PdfPig.Graphics.Operations.TextState.SetWordSpacing.ToString">
+              <inheritdoc />
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Graphics.Operations.TextState.Type3SetGlyphWidth">
+              <inheritdoc />
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.HorizontalDisplacement">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.VerticalDisplacement">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.#ctor(System.Decimal,System.Decimal)">
+              <summary>
+>             Create a new <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextState.Type3SetGlyphWidth"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidth.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox">
+              <inheritdoc />
+          </member>
+>         <member name="F:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.Symbol">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.Operator">
+              <inheritdoc />
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.HorizontalDisplacement">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.VerticalDisplacement">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.LowerLeftX">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.LowerLeftY">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.UpperRightX">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.UpperRightY">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.#ctor(System.Decimal,System.Decimal,System.Decimal,Sy
+stem.Decimal,System.Decimal,System.Decimal)">
+              <summary>
+>             Create a new <see cref="T:UglyToad.PdfPig.Graphics.Operations.Tex
+tState.Type3SetGlyphWidthAndBoundingBox"/>.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.Run(UglyToad.PdfPig.Graphics.IOperationContext)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.Write(System.IO.Stream)">
+              <inheritdoc />
+          </member>
+>         <member name="M:UglyToad.PdfPig.Graphics.Operations.TextState.Type3Se
+tGlyphWidthAndBoundingBox.ToString">
+              <inheritdoc />
+          </member>
+>         <member name="T:UglyToad.PdfPig.Graphics.TextMatrices">
+              <summary>
+>             Manages the Text Matrix (Tm), Text line matrix (Tlm) and used to 
+generate the Text Rendering Matrix (Trm).
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Graphics.TextMatrices.TextMatrix">
+              <summary>
+>             The current text matrix (Tm).
+              </summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Graphics.TextMatrices.TextLineMatrix">
+              <summary>
+>             Captures the value of the <see 
+cref="P:UglyToad.PdfPig.Graphics.TextMatrices.TextMatrix"/> at the beginning 
+of a line of text.
+>             This is convenient for aligning evenly spaced lines of text. 
+              </summary>
+              <summary>
+>             Marks a text comment.
+              </summary>
+              Logs internal messages from the PDF parsing process. Consumers 
+can provide their own implementation
+>             in the <see cref="T:UglyToad.PdfPig.ParsingOptions"/> to 
+intercept log messages.
+              </summary>
+              <summary>
+>             The text displayed for this node.
+              </summary>
+          </member>
+>         <member name="T:UglyToad.PdfPig.ParsingOptions">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.LenientParsingOff">
+              <summary>
+>             A default <see cref="T:UglyToad.PdfPig.ParsingOptions"/> with 
+<see cref="P:UglyToad.PdfPig.ParsingOptions.UseLenientParsing"/> set to false.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.ClipPaths">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.UseLenientParsing">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.Logger">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.Password">
+              <summary>
+              The password to use to open the document if it is encrypted. If 
+you need to supply multiple passwords to test against
+>             you can use <see 
+cref="P:UglyToad.PdfPig.ParsingOptions.Passwords"/>. The value of <see 
+cref="P:UglyToad.PdfPig.ParsingOptions.Password"/> will be included in the 
+list to test against.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.Passwords">
+              <summary>
+>             All passwords to try when opening this document, will include 
+any values set for <see cref="P:UglyToad.PdfPig.ParsingOptions.Password"/>.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.SkipMissingFonts">
+              <summary>
+>             Skip extracting content where the font could not be found, will 
+result in some letters being skipped/missed
+>             but will prevent the library throwing where the source PDF has 
+some corrupted text. Also skips XObjects like
+              forms and images when missing.
+          </member>
+>         <member name="M:UglyToad.PdfPig.PdfDocument.Open(System.Byte[],UglyTo
+ad.PdfPig.ParsingOptions)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.PdfDocument.Open(System.String,UglyTo
+ad.PdfPig.ParsingOptions)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.PdfDocument.Open(System.IO.Stream,Ugl
+yToad.PdfPig.ParsingOptions)">
+              <summary>
+              <summary>
+>             Defines the information content (actual text) of the font
+              as opposed to the display format.
+              <summary>
+>             The spacing between consecutive lines of text. Default 0.
+              </summary>
+              <summary>
+>             The vertical distance of the top of flat capital letters from 
+the baseline.
+              </summary>
+              The x height of the font. The vertical distance of the top of 
+flat non-ascending
+>             lowercase letters (e.g. x) from the baseline. Default 0.
+              </summary>
+              <summary>
+>             Font contains only uppercase letters.
+              </summary>
+              <summary>
+>             Lowercase letters are smaller versions of the uppercase 
+equivalent.
+              </summary>
+              <summary>
+>             Forces small bold text to be rendered bold.
+              </summary>
+              [ContractAnnotation("halt &lt;= condition: false")]
+>             public void Assert(bool condition, string text) // regular 
+assertion method
+              </code></item>
+          </member>
+>         <member 
+name="T:UglyToad.PdfPig.Util.JetBrains.Annotations.ProvidesContextAttribute">
+              <summary>
+              Indicates the type member or parameter of some type, that should 
+be used instead of all other ways
+>             to get the value that type. This annotation is useful when you 
+have some "context" value evaluated
+              and stored somewhere, meaning that all other ways to get this 
+value must be consolidated with existing one.
+              class Foo {
+>               [ProvidesContext] IBarService _barService = ...;
+              
+              Template method body can contain valid source code and/or 
+special comments starting with '$'.
+>             Text inside these comments is added as source code when the 
+template is applied. Template parameters
+              can be used either as additional method parameters or as 
+identifiers wrapped in two '$' signs.
+              is an MVC action. If applied to a method, the MVC action name is 
+calculated
+>             implicitly from the context. Use this attribute for custom 
+wrappers similar to
+              
+<c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, 
+String)</c>.
+              an MVC controller. If applied to a method, the MVC controller 
+name is calculated
+>             implicitly from the context. Use this attribute for custom 
+wrappers similar to
+              
+<c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, 
+String)</c>.
+              partial view. If applied to a method, the MVC partial view name 
+is calculated implicitly
+>             from the context. Use this attribute for custom wrappers similar 
+to
+              
+<c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, 
+String)</c>.
+              is an MVC view component. If applied to a method, the MVC view 
+name is calculated implicitly
+>             from the context. Use this attribute for custom wrappers similar 
+to
+              <c>System.Web.Mvc.Controller.View(Object)</c>.
+              XAML attribute. Indicates the type that has <c>ItemsSource</c> 
+property and should be treated
+>             as <c>ItemsControl</c>-derived type, to enable inner items 
+<c>DataContext</c> type resolve.
+              </summary>
+              is used to bind some item of <c>ItemsControl</c>-derived type. 
+This annotation will
+>             enable the <c>DataContext</c> type resolve for XAML bindings for 
+such properties.
+              </summary>
+              <para>Date values used in a PDF shall conform to a standard date 
+format, which closely 
+>             follows that of the international standard ASN.1, defined in 
+ISO/IEC 8824. A date shall be a text string 
+              of the form (D:YYYYMMDDHHmmSSOHH'mm).</para>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Util.DefaultWordExtractor.GetWords(Sy
+stem.Collections.Generic.IReadOnlyList{UglyToad.PdfPig.Content.Letter})">
+              <summary>
+              </summary>
+>             <param name="letters">The letters in the page.</param>
+          </member>
+              <summary>
+>             An approach used to generate words from a set of letters.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Util.IWordExtractor.GetWords(System.C
+ollections.Generic.IReadOnlyList{UglyToad.PdfPig.Content.Letter})">
+              <summary>
+>             Generate words from the input set of letters.
+              </summary>
+>             <param name="letters">The letters to generate words for.</param>
+              <returns>An enumerable of words from this approach.</returns>
+          </member>
+>         <member name="T:UglyToad.PdfPig.Writer.NoTextTokenWriter">
+              <summary>
+>             Derived class of <see 
+cref="T:UglyToad.PdfPig.Writer.TokenWriter"/> that does not write <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText"/> or <see cre
+f="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowTextsWithPositioning"/
+> operations in streams
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Writer.NoTextTokenWriter.Page">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.NoTextTokenWriter.WriteStream(
+UglyToad.PdfPig.Tokens.StreamToken,System.IO.Stream)">
+              <summary>
+>             Write stream without <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText"/> or <see cre
+f="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowTextsWithPositioning"/
+> operations
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.NoTextTokenWriter.TryGetStream
+WithoutText(UglyToad.PdfPig.Tokens.StreamToken,UglyToad.PdfPig.Tokens.StreamTok
+en@)">
+              <summary>
+>             Try get a stream without <see 
+cref="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowText"/> or <see cre
+f="T:UglyToad.PdfPig.Graphics.Operations.TextShowing.ShowTextsWithPositioning"/
+> operations.
+              </summary>
+              <param name="outputStreamToken"></param>
+>             <returns>true if any text operation found (and we have a valid 
+<paramref name="outputStreamToken"/> without the text operations),
+>             false if no text operation found (in which case <paramref 
+name="outputStreamToken"/> is null)</returns>
+          </member>
+              <param name="fontFileBytes">The bytes of a TrueType font.</param>
+>             <returns>An identifier which can be passed to <see cref="M:UglyTo
+ad.PdfPig.Writer.PdfPageBuilder.AddText(System.String,System.Decimal,UglyToad.P
+dfPig.Core.PdfPoint,UglyToad.PdfPig.Writer.PdfDocumentBuilder.AddedFont)"/>.</r
+eturns>
+          </member>
+              <param name="type">The type of the Standard 14 font to 
+use.</param>
+>             <returns>An identifier which can be passed to <see cref="M:UglyTo
+ad.PdfPig.Writer.PdfPageBuilder.AddText(System.String,System.Decimal,UglyToad.P
+dfPig.Core.PdfPoint,UglyToad.PdfPig.Writer.PdfDocumentBuilder.AddedFont)"/>.</r
+eturns>
+          </member>
+              <param name="lineWidth">The width of the line border of the 
+rectangle.</param>
+>             <param name="fill">Whether to fill with the color set by <see cre
+f="M:UglyToad.PdfPig.Writer.PdfPageBuilder.SetTextAndFillColor(System.Byte,Syst
+em.Byte,System.Byte)"/>.</param>
+          </member>
+              <param name="lineWidth">The width of the line border of the 
+triangle.</param>
+>             <param name="fill">Whether to fill with the color set by <see cre
+f="M:UglyToad.PdfPig.Writer.PdfPageBuilder.SetTextAndFillColor(System.Byte,Syst
+em.Byte,System.Byte)"/>.</param>
+          </member>
+              <param name="lineWidth">The width of the line border of the 
+circle.</param>
+>             <param name="fill">Whether to fill with the color set by <see cre
+f="M:UglyToad.PdfPig.Writer.PdfPageBuilder.SetTextAndFillColor(System.Byte,Syst
+em.Byte,System.Byte)"/>.</param>
+          </member>
+              <param name="lineWidth">The width of the line border of the 
+ellipsis.</param>
+>             <param name="fill">Whether to fill with the color set by <see cre
+f="M:UglyToad.PdfPig.Writer.PdfPageBuilder.SetTextAndFillColor(System.Byte,Syst
+em.Byte,System.Byte)"/>.</param>
+          </member>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfPageBuilder.SetTextAndFillC
+olor(System.Byte,System.Byte,System.Byte)">
+              <summary>
+>             Sets the fill and text color for any following operations to the 
+RGB value. Use <see 
+cref="M:UglyToad.PdfPig.Writer.PdfPageBuilder.ResetColor"/> to reset.
+              </summary>
+              <summary>
+>             Restores the stroke, text and fill color to default (black).
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfPageBuilder.MeasureText(Sys
+tem.String,System.Decimal,UglyToad.PdfPig.Core.PdfPoint,UglyToad.PdfPig.Writer.
+PdfDocumentBuilder.AddedFont)">
+              <summary>
+              </summary>
+>             <param name="text">The text to measure each letter of.</param>
+              <param name="fontSize">The size of the font in user space 
+units.</param>
+>             <param name="position">The position of the baseline (lower-left 
+corner) to start drawing the text from.</param>
+              <param name="font">
+              </param> 
+>             <returns>The letters from the input text with their 
+corresponding size and position.</returns>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfPageBuilder.AddText(System.
+String,System.Decimal,UglyToad.PdfPig.Core.PdfPoint,UglyToad.PdfPig.Writer.PdfD
+ocumentBuilder.AddedFont)">
+              <summary>
+>             Draws the text in the provided font at the specified position 
+and returns the letters which will be drawn. 
+              </summary>
+>             <param name="text">The text to draw to the page.</param>
+              <param name="fontSize">The size of the font in user space 
+units.</param>
+>             <param name="position">The position of the baseline (lower-left 
+corner) to start drawing the text from.</param>
+              <param name="font">
+              </param> 
+>             <returns>The letters from the input text with their 
+corresponding size and position.</returns>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfPageBuilder.SetTextRenderin
+gMode(UglyToad.PdfPig.Core.TextRenderingMode)">
+               <summary>
+>              Set the text rendering mode. This will apply to all future 
+calls to AddText until called again.
+              
+>              To insert invisible text, for example output of OCR, use 
+<c>TextRenderingMode.Neither</c>.
+               </summary>
+>              <param name="mode">Text rendering mode to set.</param>
+          </member>
+          </member>
+>         <member name="T:UglyToad.PdfPig.Writer.PdfTextRemover">
+              <summary>
+>             Class to remove text from PDFs, useful as a preprocessing step 
+for Optical Character Recognition (OCR).
+>             Note that this should not be used to redact content from PDFs, 
+this is not a secure or reliable way to redact text.
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfTextRemover.RemoveText(Syst
+em.String,System.Collections.Generic.IReadOnlyList{System.Int32})">
+              <summary>
+>             Return PDF without text as bytes
+              <param name="filePath">Path to PDF</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfTextRemover.RemoveText(Syst
+em.IO.Stream,System.String,System.Collections.Generic.IReadOnlyList{System.Int3
+2})">
+              <summary>
+>             Write PDF without text to the output stream. The caller must 
+manage disposing the output stream.
+              <param name="output">Must be writable</param>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfTextRemover.RemoveText(Syst
+em.Byte[],System.Collections.Generic.IReadOnlyList{System.Int32})">
+              <summary>
+>             Remove text from the PDF (passed in as a byte array) and return 
+it as a new byte array
+              <param name="file">PDF document (as byte array)</param>
+              <param name="pagesBundle">List of pages to emit; if null all 
+pages are emitted</param>
+>             <returns>PDF without text (as a byte array)</returns>
+              </summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfTextRemover.RemoveText(Syst
+em.IO.Stream,System.IO.Stream,System.Collections.Generic.IReadOnlyList{System.I
+nt32})">
+              <summary>
+>             Remove text from the PDF in the input stream and write it to the 
+output stream.
+              The caller must manage disposing the stream. The created 
+PdfDocument will not dispose the stream.
+          </member>
+>         <member name="M:UglyToad.PdfPig.Writer.PdfTextRemover.RemoveText(Ugly
+Toad.PdfPig.PdfDocument,System.IO.Stream,System.Collections.Generic.IReadOnlyLi
+st{System.Int32})">
+              <summary>
+>             Remove text from the PDF and write it to the output stream.
+              The caller must manage disposing the stream. The created 
+PdfDocument will not dispose the stream.
+
+

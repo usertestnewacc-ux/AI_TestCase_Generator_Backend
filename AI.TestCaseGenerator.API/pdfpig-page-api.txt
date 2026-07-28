@@ -1,0 +1,146 @@
+﻿
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Dictionary">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Number">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.CropBox">
+              <summary>
+>             Defines the visible region of the page, content outside the <see 
+cref="P:UglyToad.PdfPig.Content.Page.CropBox"/> is clipped/cropped.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.MediaBox">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Rotation">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Letters">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Text">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Width">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Height">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Size">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.NumberOfImages">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Operations">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.ExperimentalAccess">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Experimental.Paths">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageRotationDegrees.Value">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Content.PageRotationDegrees.SwapsAxis">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageRotationDegrees.Radians">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Pages.PageTree">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeMembers.MediaBox">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeMembers.Rotation">
+              <summary>
+          </member>
+>         <member 
+name="P:UglyToad.PdfPig.Content.PageTreeMembers.ParentResources">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.NodeDictionary">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.Reference">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.IsPage">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.PageNumber">
+              <summary>
+>             The number of this page if <see 
+cref="P:UglyToad.PdfPig.Content.PageTreeNode.IsPage"/> is <see 
+langword="true"/>.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.Children">
+              <summary>
+>             The child nodes of this node if <see 
+cref="P:UglyToad.PdfPig.Content.PageTreeNode.IsPage"/> is <see 
+langword="false" />
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.Parent">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.PageTreeNode.IsRoot">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.LenientParsingOff">
+              <summary>
+>             A default <see cref="T:UglyToad.PdfPig.ParsingOptions"/> with 
+<see cref="P:UglyToad.PdfPig.ParsingOptions.UseLenientParsing"/> set to false.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.ClipPaths">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.UseLenientParsing">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.Logger">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.Password">
+              <summary>
+              The password to use to open the document if it is encrypted. If 
+you need to supply multiple passwords to test against
+>             you can use <see 
+cref="P:UglyToad.PdfPig.ParsingOptions.Passwords"/>. The value of <see 
+cref="P:UglyToad.PdfPig.ParsingOptions.Password"/> will be included in the 
+list to test against.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.Passwords">
+              <summary>
+>             All passwords to try when opening this document, will include 
+any values set for <see cref="P:UglyToad.PdfPig.ParsingOptions.Password"/>.
+              </summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.ParsingOptions.SkipMissingFonts">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.PdfDocument.Open(System.Byte[],UglyTo
+ad.PdfPig.ParsingOptions)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.PdfDocument.Open(System.String,UglyTo
+ad.PdfPig.ParsingOptions)">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.PdfDocument.Open(System.IO.Stream,Ugl
+yToad.PdfPig.ParsingOptions)">
+              <summary>
+
+

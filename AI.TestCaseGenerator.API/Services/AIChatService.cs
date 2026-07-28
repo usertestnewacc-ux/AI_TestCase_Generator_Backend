@@ -83,8 +83,36 @@ namespace AI.TestCaseGenerator.API.Services
                     contextChunks = new List<string>();
                 }
 
+                if (contextChunks == null || !contextChunks.Any())
+                {
+                    var noContextAnswer = $"I can only answer from the uploaded and processed project documents for '{project.Name}'. Please upload a document and process it so I can study the project context before answering.";
+
+                    var historyFallback = new ChatHistory
+                    {
+                        ProjectId = project.Id,
+                        UserId = userId,
+                        UserQuestion = request.Question,
+                        AiResponse = noContextAnswer
+                    };
+
+                    _context.ChatHistories.Add(historyFallback);
+                    await _context.SaveChangesAsync();
+
+                    sw.Stop();
+
+                    return new AIChatResponseDto
+                    {
+                        Success = true,
+                        Question = request.Question,
+                        Answer = noContextAnswer,
+                        RetrievedChunks = 0,
+                        ResponseTimeMs = sw.ElapsedMilliseconds,
+                        CreatedAt = historyFallback.CreatedAt
+                    };
+                }
+
                 // Build prompt
-                var prompt = BuildPrompt(contextChunks, request.Question);
+                var prompt = BuildPrompt(project, contextChunks, request.Question);
 
                 string answer;
                 try
@@ -189,14 +217,22 @@ namespace AI.TestCaseGenerator.API.Services
         }
 
 private string BuildPrompt(
+    Project project,
     List<string> contextChunks,
     string question)
 {
     var builder = new System.Text.StringBuilder();
 
-    builder.AppendLine(
-        "Answer only using the following project documentation.");
+    builder.AppendLine($"Project Name: {project.Name}");
 
+    if (!string.IsNullOrWhiteSpace(project.Description))
+    {
+        builder.AppendLine($"Project Description: {project.Description}");
+    }
+
+    builder.AppendLine();
+    builder.AppendLine("Answer only using the following project documentation and project details.");
+    builder.AppendLine("Use the retrieved context to ground the answer. If the documents do not contain the answer, say that you don't know based on the uploaded project documents.");
     builder.AppendLine();
 
     foreach (var chunk in contextChunks)
@@ -206,13 +242,7 @@ private string BuildPrompt(
     }
 
     builder.AppendLine("Question:");
-
     builder.AppendLine(question);
-
-    builder.AppendLine();
-
-    builder.AppendLine(
-        "If the answer is not contained in the documents, clearly say you don't know.");
 
     return builder.ToString();
 }
@@ -226,7 +256,7 @@ GetChatHistoryAsync(
         .Where(x =>
             x.ProjectId == projectId &&
             x.UserId == userId)
-        .OrderByDescending(x => x.CreatedAt)
+        .OrderBy(x => x.CreatedAt)
         .ToListAsync();
 
     return _mapper.Map<IEnumerable<ChatHistoryDto>>(history);

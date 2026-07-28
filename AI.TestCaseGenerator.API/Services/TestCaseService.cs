@@ -68,6 +68,8 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
     if (project == null)
         throw new Exception("Project not found.");
 
+    var moduleName = NormalizeModuleName(request.ModuleName, request.Prompt);
+
     // Generate embedding for user prompt
     var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Prompt);
 
@@ -78,7 +80,7 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
         5);
 
     // Build RAG prompt
-    var prompt = BuildPrompt(request.Prompt, relevantChunks);
+    var prompt = BuildPrompt(request.Prompt, relevantChunks, moduleName);
 
     // Send to Ollama
     var aiResponse = await _ollamaChatService.AskAsync(prompt);
@@ -86,7 +88,8 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
     // Parse AI response
     var generatedTestCases = ParseTestCases(
         aiResponse,
-        request.ProjectId);
+        request.ProjectId,
+        moduleName);
 
     // Save into database
     _context.TestCases.AddRange(generatedTestCases);
@@ -99,7 +102,8 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
 
 private static string BuildPrompt(
     string userPrompt,
-    List<string> documentChunks)
+    List<string> documentChunks,
+    string moduleName)
 {
     var sb = new StringBuilder();
 
@@ -122,6 +126,7 @@ private static string BuildPrompt(
     sb.AppendLine();
 
     sb.AppendLine($"User Request: {userPrompt}");
+    sb.AppendLine($"Requested Module Name: {moduleName}");
 
     sb.AppendLine();
 
@@ -149,15 +154,39 @@ private static string BuildPrompt(
 
     sb.AppendLine("- Use clear software testing terminology.");
 
+    sb.AppendLine("- Assign every generated test case to the exact module name supplied in the requested module name field.");
+
+    sb.AppendLine("- Never use General as the module name when a specific module is requested.");
+
     sb.AppendLine("- Return ONLY the table.");
 
     return sb.ToString();
 }
 
 
+private static string NormalizeModuleName(string? moduleName, string? prompt)
+{
+    if (!string.IsNullOrWhiteSpace(moduleName))
+        return moduleName.Trim();
+
+    if (!string.IsNullOrWhiteSpace(prompt))
+    {
+        var promptWords = prompt
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Where(word => !string.IsNullOrWhiteSpace(word))
+            .ToArray();
+
+        if (promptWords.Length > 0)
+            return promptWords[0];
+    }
+
+    return "General";
+}
+
 private List<TestCase> ParseTestCases(
     string aiResponse,
-    int projectId)
+    int projectId,
+    string moduleName)
 {
     var testCases = new List<TestCase>();
 
@@ -187,6 +216,7 @@ private List<TestCase> ParseTestCases(
         var testCase = new TestCase
         {
             ProjectId = projectId,
+            ModuleName = moduleName,
             Title = columns[0],
             TestType = columns[1],
             Priority = columns[2],
@@ -212,12 +242,14 @@ public async Task<TestCaseResponseDto?> UpdateAsync(
     if (testCase == null)
         return null;
 
+    testCase.ModuleName = dto.ModuleName;
     testCase.Title = dto.Title;
     testCase.TestType = dto.TestType;
     testCase.Priority = dto.Priority;
     testCase.Preconditions = dto.Preconditions;
     testCase.TestSteps = dto.TestSteps;
     testCase.ExpectedResult = dto.ExpectedResult;
+    testCase.Description = dto.Description;
 
     await _context.SaveChangesAsync();
 

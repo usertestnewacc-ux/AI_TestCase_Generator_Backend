@@ -122,7 +122,7 @@
             },
             "UglyToad.PdfPig": {
               "target": "Package",
-              "version": "[0.1.9-alpha001-patch1, )"
+              "version": "[1.7.0-custom-5, )"
             }
           },
           "imports": [
