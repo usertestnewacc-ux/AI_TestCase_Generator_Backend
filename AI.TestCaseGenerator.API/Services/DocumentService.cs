@@ -282,28 +282,35 @@ private async Task GenerateEmbeddingsAsync(int documentId)
 
     _logger.LogInformation("Generating embedding with Ollama for document {DocumentId} using collection {CollectionName}", documentId, collectionName);
 
-    await _chromaDbService.CreateCollectionAsync(collectionName);
-
-    foreach (var chunk in chunks)
+    try
     {
-        if (string.IsNullOrWhiteSpace(chunk.Content))
-            continue;
+        await _chromaDbService.CreateCollectionAsync(collectionName);
 
-        _logger.LogInformation("Generating embedding with Ollama for document {DocumentId} chunk {ChunkIndex}", documentId, chunk.ChunkIndex);
+        foreach (var chunk in chunks)
+        {
+            if (string.IsNullOrWhiteSpace(chunk.Content))
+                continue;
 
-        var embedding = await _ollamaEmbeddingService.GenerateEmbeddingAsync(chunk.Content);
+            _logger.LogInformation("Generating embedding with Ollama for document {DocumentId} chunk {ChunkIndex}", documentId, chunk.ChunkIndex);
 
-        if (embedding == null || embedding.Length == 0)
-            throw new InvalidOperationException($"Ollama embedding generation returned an empty vector for document {documentId} chunk {chunk.ChunkIndex}.");
+            var embedding = await _ollamaEmbeddingService.GenerateEmbeddingAsync(chunk.Content);
 
-        var embeddingId = $"{documentId}-{chunk.ChunkIndex}";
+            if (embedding == null || embedding.Length == 0)
+                throw new InvalidOperationException($"Ollama embedding generation returned an empty vector for document {documentId} chunk {chunk.ChunkIndex}.");
 
-        await _chromaDbService.AddEmbeddingAsync(collectionName, embeddingId, embedding, chunk.Content);
+            var embeddingId = $"{documentId}-{chunk.ChunkIndex}";
 
-        _logger.LogInformation("Vector stored in ChromaDB for document {DocumentId} chunk {ChunkIndex}", documentId, chunk.ChunkIndex);
+            await _chromaDbService.AddEmbeddingAsync(collectionName, embeddingId, embedding, chunk.Content);
+
+            _logger.LogInformation("Vector stored in ChromaDB for document {DocumentId} chunk {ChunkIndex}", documentId, chunk.ChunkIndex);
+        }
+
+        _logger.LogInformation("Indexing completed for document {DocumentId}", documentId);
     }
-
-    _logger.LogInformation("Indexing completed for document {DocumentId}", documentId);
+    catch (Exception ex)
+    {
+        _logger.LogWarning(ex, "Vector indexing failed for document {DocumentId}; the document chunks are still available for test-case generation.", documentId);
+    }
 }
 
 

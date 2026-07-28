@@ -4,6 +4,7 @@ using AI.TestCaseGenerator.API.Entities;
 using AI.TestCaseGenerator.API.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Text;
 
 namespace AI.TestCaseGenerator.API.Services
@@ -15,19 +16,22 @@ namespace AI.TestCaseGenerator.API.Services
         private readonly IOllamaChatService _ollamaChatService;
         private readonly IOllamaEmbeddingService _embeddingService;
         private readonly IChromaDbService _chromaDbService;
+        private readonly ILogger<TestCaseService> _logger;
 
         public TestCaseService(
             ApplicationDbContext context,
             IMapper mapper,
             IOllamaChatService ollamaChatService,
             IOllamaEmbeddingService embeddingService,
-            IChromaDbService chromaDbService)
+            IChromaDbService chromaDbService,
+            ILogger<TestCaseService> logger)
         {
             _context = context;
             _mapper = mapper;
             _ollamaChatService = ollamaChatService;
             _embeddingService = embeddingService;
             _chromaDbService = chromaDbService;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<TestCaseResponseDto>> GetAllAsync(int projectId)
@@ -70,14 +74,8 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
 
     var moduleName = NormalizeModuleName(request.ModuleName, request.Prompt);
 
-    // Generate embedding for user prompt
-    var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Prompt);
-
-    // Search relevant chunks from ChromaDB using the same project-specific collection as indexing
-    var relevantChunks = await _chromaDbService.SearchAsync(
-        $"project-{project.Id}",
-        embedding,
-        5);
+    // Retrieve relevant context from vector search if available; otherwise fall back to stored document chunks.
+    var relevantChunks = await GetRelevantChunksAsync(project.Id, request.Prompt);
 
     // Build RAG prompt
     var prompt = BuildPrompt(request.Prompt, relevantChunks, moduleName);
@@ -98,6 +96,34 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
 
     return _mapper.Map<IEnumerable<TestCaseResponseDto>>(
         generatedTestCases);
+}
+
+private async Task<List<string>> GetRelevantChunksAsync(int projectId, string prompt)
+{
+    try
+    {
+        var embedding = await _embeddingService.GenerateEmbeddingAsync(prompt);
+
+        return await _chromaDbService.SearchAsync(
+            $"project-{projectId}",
+            embedding,
+            5);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogWarning(ex, "Vector search failed for project {ProjectId}; falling back to stored document chunks.", projectId);
+    }
+
+    var dbChunks = await _context.DocumentChunks
+        .Include(dc => dc.Document)
+        .Where(dc => dc.Document != null && dc.Document.ProjectId == projectId)
+        .OrderBy(dc => dc.DocumentId)
+        .ThenBy(dc => dc.ChunkIndex)
+        .Select(dc => dc.Content)
+        .Where(content => !string.IsNullOrWhiteSpace(content))
+        .ToListAsync();
+
+    return dbChunks.Take(5).ToList();
 }
 
 private static string BuildPrompt(
