@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Text;
 using UglyToad.PdfPig;
+using UglyToad.PdfPig.Util;
 
 namespace AI.TestCaseGenerator.API.Services
 {
@@ -133,21 +135,88 @@ private async Task<string> ExtractTextAsync(Document document)
 
         private async Task<string> ExtractPdfTextAsync(string filePath)
         {
+            var options = new ParsingOptions
+            {
+                UseLenientParsing = true,
+                SkipMissingFonts = true,
+                ClipPaths = true,
+            };
+
             try
             {
-                using var pdfDocument = PdfDocument.Open(filePath);
-                var builder = new StringBuilder();
+                using var pdfDocument = PdfDocument.Open(filePath, options);
+                var extracted = GetPdfText(pdfDocument);
 
-                foreach (var page in pdfDocument.GetPages())
+                if (!string.IsNullOrWhiteSpace(extracted))
                 {
-                    builder.AppendLine(page.Text);
+                    return extracted;
                 }
 
-                return await Task.FromResult(builder.ToString());
+                return await ExtractPdfTextFromStreamAsync(filePath, options);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to extract PDF text from {FilePath}", filePath);
+                _logger.LogWarning(ex, "PDF text extraction failed with lenient parser for {FilePath}. Retrying via stream.", filePath);
+                return await ExtractPdfTextFromStreamAsync(filePath, options);
+            }
+        }
+
+        private static string GetPdfText(PdfDocument pdfDocument)
+        {
+            var builder = new StringBuilder();
+            var wordExtractor = DefaultWordExtractor.Instance;
+
+            foreach (var page in pdfDocument.GetPages())
+            {
+                var pageText = page.Text;
+
+                if (string.IsNullOrWhiteSpace(pageText))
+                {
+                    if (page.Letters.Any())
+                    {
+                        pageText = string.Concat(page.Letters.Select(letter => letter.Value));
+                    }
+                    else
+                    {
+                        var words = page.GetWords(wordExtractor);
+                        pageText = string.Join(' ', words.Select(w => w.Text));
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(pageText))
+                {
+                    builder.AppendLine(pageText);
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        private async Task<string> ExtractPdfTextFromStreamAsync(string filePath, ParsingOptions options)
+        {
+            try
+            {
+                await using var stream = File.OpenRead(filePath);
+                using var pdfDocument = PdfDocument.Open(stream, options);
+                var extracted = GetPdfText(pdfDocument);
+
+                if (!string.IsNullOrWhiteSpace(extracted))
+                    return extracted;
+
+                if (pdfDocument.NumberOfPages > 0)
+                {
+                    var page = pdfDocument.GetPage(1);
+                    if (page?.Letters.Any() == true)
+                    {
+                        return string.Concat(page.Letters.Select(letter => letter.Value));
+                    }
+                }
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to extract PDF text from stream for {FilePath}", filePath);
                 return string.Empty;
             }
         }
@@ -302,16 +371,20 @@ public async Task<IEnumerable<DocumentResponseDto>> GetProjectDocumentsAsync(
 
     var documents = await _context.Documents
         .Where(d => d.ProjectId == projectId)
+        .Include(d => d.Chunks)
         .OrderByDescending(d => d.CreatedAt)
         .ToListAsync();
 
     return _mapper.Map<IEnumerable<DocumentResponseDto>>(documents);
 }
 
-public async Task<DocumentResponseDto?> GetDocumentByIdAsync(int documentId, int userId)
+public async Task<DocumentResponseDto?> GetDocumentByIdAsync(
+    int documentId,
+    int userId)
 {
     var document = await _context.Documents
         .Include(d => d.Project)
+        .Include(d => d.Chunks)
         .FirstOrDefaultAsync(d =>
             d.Id == documentId &&
             d.Project.UserId == userId);

@@ -1,0 +1,63 @@
+﻿
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13082:            </summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13083:            <param name="s">The pdf 
+formated date string, e.g. D:199812231952-08'00.</param>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13084:            <param name="offset">The 
+parsed date.</param>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13085:            <returns>True if 
+parsed.</returns>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13086:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13087:        <member 
+name="T:UglyToad.PdfPig.Util.DefaultWordExtractor">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13088:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13089:            Default Word Extractor.
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13090:            </summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13091:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13092:        <member name="M:UglyToad.PdfPig.U
+til.DefaultWordExtractor.GetWords(System.Collections.Generic.IReadOnlyList{Ugly
+Toad.PdfPig.Content.Letter})">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13093:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13094:            Gets the words.
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13095:            </summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13096:            <param name="letters">The 
+letters in the page.</param>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13097:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13098:        <member 
+name="P:UglyToad.PdfPig.Util.DefaultWordExtractor.Instance">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13099:            <summary>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13100:            Create an instance of 
+Default Word Extractor, <see 
+cref="T:UglyToad.PdfPig.Util.DefaultWordExtractor"/>.
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13101:            </summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13102:        </member>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13103:        <member 
+name="T:UglyToad.PdfPig.Util.Hex">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13104:             Utility functions for hex 
+encoding.
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:13105:            
+
+

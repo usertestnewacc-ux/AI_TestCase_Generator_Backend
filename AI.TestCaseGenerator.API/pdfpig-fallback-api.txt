@@ -1,0 +1,45 @@
+﻿
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:1861:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:1862:        <member 
+name="P:UglyToad.PdfPig.Content.Letter.Value">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:1863:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2180:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2181:        <member 
+name="P:UglyToad.PdfPig.Content.Page.Letters">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2182:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2185:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2186:        <member 
+name="P:UglyToad.PdfPig.Content.Page.Text">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2187:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2528:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2529:        <member 
+name="P:UglyToad.PdfPig.Content.Word.Text">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2530:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2533:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2534:        <member 
+name="P:UglyToad.PdfPig.Content.Word.TextOrientation">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2535:            <summary>
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2548:        </member>
+> C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2549:        <member 
+name="P:UglyToad.PdfPig.Content.Word.Letters">
+  C:\Users\adithya.wilson\.nuget\packages\uglytoad.pdfpig\0.1.9-alpha001-patch1
+\lib\net6.0\UglyToad.PdfPig.xml:2550:            <summary>
+
+

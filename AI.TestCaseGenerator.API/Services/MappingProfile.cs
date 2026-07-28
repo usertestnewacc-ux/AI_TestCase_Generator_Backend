@@ -20,7 +20,9 @@ namespace AI.TestCaseGenerator.API.Services
                 .ForMember(dest => dest.TotalChats, opt => opt.MapFrom(src => src.ChatHistories.Count));
 
             CreateMap<Document, DocumentResponseDto>()
-                .ForMember(dest => dest.UploadedAt, opt => opt.MapFrom(src => src.CreatedAt));
+                .ForMember(dest => dest.UploadedAt, opt => opt.MapFrom(src => src.CreatedAt))
+                .ForMember(dest => dest.TotalChunks, opt => opt.MapFrom(src => src.Chunks.Count))
+                .ForMember(dest => dest.IsProcessed, opt => opt.MapFrom(src => src.Chunks.Any()));
 
             CreateMap<TestCase, TestCaseResponseDto>();
 

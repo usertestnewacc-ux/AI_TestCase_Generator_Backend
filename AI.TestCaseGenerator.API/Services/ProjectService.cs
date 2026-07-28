@@ -21,27 +21,35 @@ namespace AI.TestCaseGenerator.API.Services
         }
 
         public async Task<IEnumerable<ProjectResponseDto>> GetAllProjectsAsync(int userId)
-{
-    var projects = await _context.Projects
-        .Where(p => p.UserId == userId)
-        .OrderByDescending(p => p.CreatedAt)
-        .ToListAsync();
+        {
+            var projects = await _context.Projects
+                .AsNoTracking()
+                .Where(p => p.UserId == userId)
+                .Include(p => p.Documents)
+                .Include(p => p.TestCases)
+                .Include(p => p.ChatHistories)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
 
-    return _mapper.Map<IEnumerable<ProjectResponseDto>>(projects);
-}
+            return _mapper.Map<IEnumerable<ProjectResponseDto>>(projects);
+        }
 
-public async Task<ProjectResponseDto?> GetProjectByIdAsync(int id, int userId)
-{
-    var project = await _context.Projects
-        .FirstOrDefaultAsync(p =>
-            p.Id == id &&
-            p.UserId == userId);
+        public async Task<ProjectResponseDto?> GetProjectByIdAsync(int id, int userId)
+        {
+            var project = await _context.Projects
+                .AsNoTracking()
+                .Include(p => p.Documents)
+                .Include(p => p.TestCases)
+                .Include(p => p.ChatHistories)
+                .FirstOrDefaultAsync(p =>
+                    p.Id == id &&
+                    p.UserId == userId);
 
-    if (project == null)
-        return null;
+            if (project == null)
+                return null;
 
-    return _mapper.Map<ProjectResponseDto>(project);
-}
+            return _mapper.Map<ProjectResponseDto>(project);
+        }
 
 public async Task<ProjectResponseDto> CreateProjectAsync(CreateProjectDto dto, int userId)
 {

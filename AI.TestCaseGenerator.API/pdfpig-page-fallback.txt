@@ -1,0 +1,27 @@
+﻿
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Letter.Value">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Page.Letters">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Content.Page.GetWords(UglyToad.PdfPig
+.Util.IWordExtractor)">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Word.Text">
+              <summary>
+          </member>
+>         <member name="P:UglyToad.PdfPig.Content.Word.TextOrientation">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Util.DefaultWordExtractor.GetWords(Sy
+stem.Collections.Generic.IReadOnlyList{UglyToad.PdfPig.Content.Letter})">
+              <summary>
+          </member>
+>         <member name="M:UglyToad.PdfPig.Util.IWordExtractor.GetWords(System.C
+ollections.Generic.IReadOnlyList{UglyToad.PdfPig.Content.Letter})">
+              <summary>
+
+
