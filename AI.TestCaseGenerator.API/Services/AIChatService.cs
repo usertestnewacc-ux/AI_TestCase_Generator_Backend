@@ -232,7 +232,9 @@ private string BuildPrompt(
 
     builder.AppendLine();
     builder.AppendLine("Answer only using the following project documentation and project details.");
-    builder.AppendLine("Use the retrieved context to ground the answer. If the documents do not contain the answer, say that you don't know based on the uploaded project documents.");
+    builder.AppendLine("Do not use outside knowledge, and do not combine separate modules or features unless the uploaded documents explicitly link them.");
+    builder.AppendLine("If the question refers to a specific module, answer only for that module and ignore unrelated module content.");
+    builder.AppendLine("If the documents do not contain the exact answer, say that the information is not available in the uploaded project documents.");
     builder.AppendLine();
 
     foreach (var chunk in contextChunks)

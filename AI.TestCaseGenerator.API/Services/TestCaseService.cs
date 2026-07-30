@@ -78,7 +78,7 @@ public async Task<IEnumerable<TestCaseResponseDto>> GenerateTestCasesAsync(
     var relevantChunks = await GetRelevantChunksAsync(project.Id, request.Prompt);
 
     // Build RAG prompt
-    var prompt = BuildPrompt(request.Prompt, relevantChunks, moduleName);
+    var prompt = BuildPrompt(request, relevantChunks, moduleName);
 
     // Send to Ollama
     var aiResponse = await _ollamaChatService.AskAsync(prompt);
@@ -127,7 +127,7 @@ private async Task<List<string>> GetRelevantChunksAsync(int projectId, string pr
 }
 
 private static string BuildPrompt(
-    string userPrompt,
+    GenerateTestCaseRequestDto request,
     List<string> documentChunks,
     string moduleName)
 {
@@ -148,42 +148,30 @@ private static string BuildPrompt(
     }
 
     sb.AppendLine("==========================================");
-
     sb.AppendLine();
 
-    sb.AppendLine($"User Request: {userPrompt}");
+    sb.AppendLine($"User Request: {request.Prompt}");
     sb.AppendLine($"Requested Module Name: {moduleName}");
-
+    sb.AppendLine($"Requested Test Type: {request.TestType}");
+    sb.AppendLine($"Requested Number of Test Cases: {request.NumberOfTestCases}");
     sb.AppendLine();
 
     sb.AppendLine("Generate software test cases in the following table format.");
-
     sb.AppendLine();
-
     sb.AppendLine("| Title | Type | Priority | Preconditions | Steps | Expected Result |");
-
     sb.AppendLine();
-
     sb.AppendLine("Rules:");
-
     sb.AppendLine("- Generate Positive test cases.");
-
     sb.AppendLine("- Generate Negative test cases.");
-
     sb.AppendLine("- Generate Edge test cases.");
-
     sb.AppendLine("- Generate Regression test cases.");
-
     sb.AppendLine("- Use High, Medium or Low priority.");
-
     sb.AppendLine("- Each test case must be unique.");
-
     sb.AppendLine("- Use clear software testing terminology.");
-
+    sb.AppendLine("- Every test case must include a non-empty Preconditions value.");
+    sb.AppendLine("- If Preconditions are not explicitly defined by the requirement, write a meaningful setup state such as 'User is logged in and on the relevant module screen.'");
     sb.AppendLine("- Assign every generated test case to the exact module name supplied in the requested module name field.");
-
     sb.AppendLine("- Never use General as the module name when a specific module is requested.");
-
     sb.AppendLine("- Return ONLY the table.");
 
     return sb.ToString();
@@ -231,13 +219,30 @@ private List<TestCase> ParseTestCases(
         if (line.Contains("---"))
             continue;
 
-        var columns = line
-            .Split('|', StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim())
-            .ToArray();
+        var rawColumns = line.Split('|');
 
-        if (columns.Length < 6)
+        if (rawColumns.Length < 8)
             continue;
+
+        var columns = rawColumns
+            .Skip(1)
+            .Take(rawColumns.Length - 2)
+            .Select(x => x.Trim())
+            .ToList();
+
+        if (columns.Count > 6)
+        {
+            var merged = columns.Take(5).ToList();
+            merged.Add(string.Join(" | ", columns.Skip(5)));
+            columns = merged;
+        }
+
+        if (columns.Count < 6)
+            continue;
+
+        var preconditions = string.IsNullOrWhiteSpace(columns[3])
+            ? $"User is on the {moduleName} feature and ready to perform the action."
+            : columns[3];
 
         var testCase = new TestCase
         {
@@ -246,7 +251,7 @@ private List<TestCase> ParseTestCases(
             Title = columns[0],
             TestType = columns[1],
             Priority = columns[2],
-            Preconditions = columns[3],
+            Preconditions = preconditions,
             TestSteps = columns[4],
             ExpectedResult = columns[5]
         };
